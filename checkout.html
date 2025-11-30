@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Butter Lab | Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Styles for interactive checkout list */
+    .order-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .order-item-details {
+      flex-grow: 1;
+    }
+    .order-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #f7f7f7;
+      border-radius: 20px;
+      padding: 2px;
+    }
+    .btn-adjust {
+      border: none;
+      background-color: #eee;
+      color: #333;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .btn-adjust:hover {
+      background-color: #ddd;
+    }
+    .btn-remove {
+      border: none;
+      background: none;
+      font-size: 1.5rem;
+      color: #aaa;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="Logo2.jpeg" alt="Butter Lab logo" class="logo-img" />
+        <span class="logo-text">Butter Lab</span>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="catalog.html" class="nav-link">Catalog</a>
+        <a href="checkout.html" class="nav-link active">Checkout</a>
+        <a href="about.html" class="nav-link">About</a>
+      </nav>
+      <div class="cart-indicator">
+        Cart: <span id="cart-count">0</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero small-hero">
+      <div class="container">
+        <h1>Checkout</h1>
+        <p>Review your order and fill in your details to complete the purchase.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container checkout-grid">
+        <!-- Order summary (filled by JS from localStorage) -->
+        <div class="card order-summary">
+          <h2>Order Summary</h2>
+          <ul class="order-list" id="order-list">
+            <!-- JS will inject li elements here -->
+          </ul>
+          <div class="order-total">
+            <span>Total</span>
+            <span id="order-total">₪0</span>
+          </div>
+          <p class="small-note">
+            * This is a demo checkout – no real payment is processed.
+          </p>
+        </div>
+
+        <!-- Customer form -->
+        <div class="card checkout-form-card">
+          <h2>Customer Details</h2>
+          <form class="checkout-form" id="checkout-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="full-name">Full name *</label>
+                <input type="text" id="full-name" required placeholder="e.g. Tomer Levi" />
+              </div>
+              <div class="form-field">
+                <label for="phone">Phone *</label>
+                <input type="tel" id="phone" required placeholder="05X-XXXXXXX" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="email">Email *</label>
+                <input type="email" id="email" required placeholder="you@example.com" />
+              </div>
+              <div class="form-field">
+                <label for="city">City *</label>
+                <input type="text" id="city" required placeholder="e.g. Beer-Sheva" />
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="address">Shipping address *</label>
+              <input type="text" id="address" required placeholder="Street, house number, apartment" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="zip">Postal code</label>
+                <input type="text" id="zip" placeholder="e.g. 8410000" />
+              </div>
+              <div class="form-field">
+                <label for="notes">Notes / special requests</label>
+                <input type="text" id="notes" placeholder="Allergies, gift message, delivery notes..." />
+              </div>
+            </div>
+
+            <h3 class="form-subtitle">Payment (demo)</h3>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="card-name">Name on card</label>
+                <input type="text" id="card-name" placeholder="As shown on card" />
+              </div>
+              <div class="form-field">
+                <label for="card-last4">Last 4 digits</label>
+                <input type="text" id="card-last4" maxlength="4" placeholder="1234" />
+              </div>
+            </div>
+
+            <div class="form-field checkbox-field">
+              <label>
+                <input type="checkbox" id="terms" />
+                I accept the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+              </label>
+            </div>
+
+            <button type="submit" class="btn primary-btn full-width">
+              Place order
+            </button>
+            <p class="small-note" id="order-message"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="logo">
+          <img src="Logo2.jpeg" alt="Butter Lab logo" class="logo-img small" />
+          <span class="logo-text">Butter Lab</span>
+        </span>
+        <p>From our lab to your table.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Shipping information</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contact</h4>
+        <p class="footer-contact">Phone: +972-50-000-0000</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Butter Lab. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

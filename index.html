@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Butter Lab | Handcrafted Flavored Butter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <img src="Logo2.jpeg" alt="Butter Lab logo" class="logo-img" />
+        <span class="logo-text">Butter Lab</span>
+      </a>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="catalog.html" class="nav-link">Catalog</a>
+        <a href="checkout.html" class="nav-link">Checkout</a>
+        <a href="about.html" class="nav-link">About</a>
+      </nav>
+      <div class="cart-indicator">
+        Cart: <span id="cart-count">0</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text">
+          <p class="eyebrow">Boutique Flavored Butter</p>
+          <h1>Turn everyday meals into a gourmet experience.</h1>
+          <p class="hero-description">
+            Butter Lab brings you handcrafted, small-batch butter in unique flavors,
+            made from quality ingredients and designed for food lovers who care about
+            taste, aesthetics and experience.
+          </p>
+          <div class="hero-actions">
+            <a href="catalog.html" class="btn primary-btn">Explore the catalog</a>
+            <button
+              class="btn ghost-btn"
+              data-add-product
+              data-product-id="honey"
+              data-product-name="Honey & Sea Salt Butter"
+              data-product-price="32"
+            >
+              Add Honey &amp; Sea Salt to cart
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-image-card">
+          <div class="hero-pill">Best Seller</div>
+          <div class="hero-image-placeholder">
+            <img src="Logo2.jpeg" alt="Butter Lab logo" class="hero-logo" />
+          </div>
+          <div class="hero-product-info">
+            <h2>Honey &amp; Sea Salt Butter</h2>
+            <p>A silky butter infused with wild honey and crunchy sea salt crystals.</p>
+            <p class="hero-price">₪32 / 150g</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About snippet -->
+    <section class="section about-preview">
+      <div class="container about-grid">
+        <div class="about-text">
+          <h2>About Butter Lab</h2>
+          <p>
+            Butter Lab is an online boutique for flavored butter, handmade in small
+            batches with attention to every detail. We believe butter can be more than
+            a basic ingredient – it can be a centerpiece of flavor.
+          </p>
+          <p>
+            Our customers are food enthusiasts, hosts and gift-givers who care about
+            quality, design and a smooth, reliable online shopping experience.
+          </p>
+          <a href="about.html" class="text-link">Meet the team & learn more →</a>
+        </div>
+        <div class="about-image-card">
+          <div class="crew-image-placeholder">
+            <img src="Logo2.jpeg" alt="Butter Lab logo" class="about-logo" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Highlight products strip -->
+    <section class="section featured-strip">
+      <div class="container">
+        <h2 class="section-title">Signature Flavors</h2>
+        <div class="product-strip">
+          <article class="mini-card">
+            <h3>Garlic & Herb</h3>
+            <p>Perfect for warm bread, pasta and roasted veggies.</p>
+          </article>
+          <article class="mini-card">
+            <h3>Honey & Sea Salt</h3>
+            <p>Sweet–salty balance for brunch, desserts and toast.</p>
+          </article>
+          <article class="mini-card">
+            <h3>Smoked Paprika</h3>
+            <p>Bold and smoky, ideal for meats and grilled dishes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <span class="logo">
+          <img src="Logo2.jpeg" alt="Butter Lab logo" class="logo-img small" />
+          <span class="logo-text">Butter Lab</span>
+        </span>
+        <p>Handcrafted flavored butter, made with love and a pinch of salt.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Follow us</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">X</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+        <p class="footer-contact">Phone: +972-50-000-0000</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Butter Lab. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
