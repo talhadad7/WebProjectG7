@@ -14,7 +14,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="logo">
-        <img src="Logo2.jpeg" alt="Butter Lab logo" class="logo-img" />
+        <img src="Images/Logo2.jpeg" alt="Butter Lab logo" class="logo-img" />
         <span class="logo-text">Butter Lab</span>
       </a>
       <nav class="main-nav">
@@ -24,7 +24,7 @@
         <a href="about.html" class="nav-link">About</a>
       </nav>
       <div class="cart-indicator">
-        Cart: <span id="cart-count">0</span>
+         Cart: <span id="cart-count">0</span>
       </div>
     </div>
   </header>
@@ -58,7 +58,7 @@
         <div class="hero-image-card">
           <div class="hero-pill">Best Seller</div>
           <div class="hero-image-placeholder">
-            <img src="Logo2.jpeg" alt="Butter Lab logo" class="hero-logo" />
+            <img src="Images/HoneySaltButter.png" alt="Honey & Salt Butter Picture" class="hero-logo" />
           </div>
           <div class="hero-product-info">
             <h2>Honey &amp; Sea Salt Butter</h2>
@@ -87,7 +87,7 @@
         </div>
         <div class="about-image-card">
           <div class="crew-image-placeholder">
-            <img src="Logo2.jpeg" alt="Butter Lab logo" class="about-logo" />
+            <img src="Images/Logo2.jpeg" alt="Butter Lab logo" class="about-logo" />
           </div>
         </div>
       </div>
@@ -113,6 +113,42 @@
         </div>
       </div>
     </section>
+        <section class="section contact-section" id="contact">
+             <div class="container contact-grid">
+        <div class="contact-text">
+          <h2>Contact us</h2>
+          <p>
+            Questions about flavors, allergies, or gift boxes? Leave a message and we’ll get back to you.
+          </p>
+        </div>
+         <div class="card contact-card">
+          <form id="contact-form" class="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="contact-name">Name *</label>
+                <input id="contact-name" type="text" required placeholder="Your name" />
+              </div>
+               <div class="form-field">
+                <label for="contact-email">Email *</label>
+                <input id="contact-email" type="email" required placeholder="you@example.com" />
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="contact-subject">Subject</label>
+              <input id="contact-subject" type="text" placeholder="Optional" />
+            </div>
+
+            <div class="form-field">
+              <label for="contact-message">Message *</label>
+              <textarea id="contact-message" required rows="5" placeholder="Write your message..."></textarea>
+            </div>
+            <button type="submit" class="btn primary-btn full-width">Send message</button>
+            <p class="small-note" id="contact-status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Footer -->
@@ -120,7 +156,7 @@
     <div class="container footer-grid">
       <div class="footer-brand">
         <span class="logo">
-          <img src="Logo2.jpeg" alt="Butter Lab logo" class="logo-img small" />
+          <img src="Images/Logo2.jpeg" alt="Butter Lab logo" class="logo-img small" />
           <span class="logo-text">Butter Lab</span>
         </span>
         <p>Handcrafted flavored butter, made with love and a pinch of salt.</p>

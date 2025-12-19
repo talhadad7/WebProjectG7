@@ -505,11 +505,6 @@ body {
   font-size: 1.05rem;
 }
 
-.product-flavor {
-  margin: 0;
-  font-size: 0.85rem;
-  color: var(--color-muted);
-}
 
 .product-description {
   margin: 0.2rem 0;
@@ -813,7 +808,41 @@ body {
   text-align: center;
   font-size: 1.1rem;
 }
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+  gap: 2rem;
+  align-items: start;
+}
 
+.contact-text p {
+  color: var(--color-muted);
+  max-width: 520px;
+}
+
+.contact-form textarea {
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  font-size: 0.9rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px rgba(217, 164, 65, 0.35);
+}
+
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.product-image-placeholder {
+  display: none;
+}
 /* =========
    Responsive
    ========= */
@@ -879,3 +908,4 @@ body {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
