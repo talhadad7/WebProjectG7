@@ -100,6 +100,41 @@ const PRODUCTS = {
     image: "Images/LemonDillButter.png",
     alt: "Lemon and dill flavored butter",
     popularity: 4
+  },
+  ChiliAnchovy: {
+    id: "ChiliAnchovy",
+    name: "Chili & Anchovy Butter",
+    flavor: "Chili flakes, anchovy & herbs",
+    description: "A bold, umami-packed butter with a spicy kick—amazing on pasta, toast and grilled fish.",
+    price: 34,
+    weight: 150,
+    image: "Images/ChiliAnchovyButter.png",
+    alt: "Chili and anchovy flavored butter slices on a wooden board",
+    popularity: 5
+  },
+
+  CaramelizedOnion: {
+    id: "CaramelizedOnion",
+    name: "Caramelized Onion Butter",
+    flavor: "Slow-cooked caramelized onions",
+    description: "Sweet and savory butter with rich onion depth—perfect for steaks, burgers, mashed potatoes and toast.",
+    price: 33,
+    weight: 150,
+    image: "Images/CaramelizedOnionButter.png",
+    alt: "Caramelized onion flavored butter slices on a wooden board",
+    popularity: 6
+  },
+
+  BrownButterCinnamonVanilla: {
+    id: "BrownButterCinnamonVanilla",
+    name: "Brown Butter with Cinnamon, Vanilla & Brown Sugar",
+    flavor: "Brown butter, cinnamon, vanilla & brown sugar",
+    description: "Warm, nutty and dessert-ready—spread on pancakes, waffles, banana bread or warm brioche.",
+    price: 35,
+    weight: 150,
+    image: "Images/BrownButterCinnamonVanilla.png",
+    alt: "Brown butter with cinnamon and vanilla slices on a wooden board",
+    popularity: 7
   }
 };
 const SIGNATURE_FLAVORS = ["GarlicHerb", "SmokedPaprika"];

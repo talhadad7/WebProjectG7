@@ -841,7 +841,12 @@ body {
   }
 }
 .product-image-placeholder {
+  height: 220px;              /* 👈 הגובה הקובע */
+  background: radial-gradient(circle at 0% 0%, #fff, #ffe2b5);
   display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;           /* 👈 חשוב */
 }
 .product-image {
   width: 100%;
