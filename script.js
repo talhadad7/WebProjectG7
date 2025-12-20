@@ -205,7 +205,80 @@ function setupCatalogActions() {
     updateCatalogProduct(productId);
   });
 }
+function getCatalogCards() {
+  return Array.from(document.querySelectorAll("#catalog-grid .product-card"));
+}
 
+// חיפוש: מסתיר/מציג כרטיסים לפי טקסט
+function applyCatalogSearch(query) {
+  const q = query.trim().toLowerCase();
+  const cards = getCatalogCards();
+
+  cards.forEach((card) => {
+    const name = (card.dataset.name || "").toLowerCase();
+    // אפשר לחפש גם בתיאור/טעם אם תרצה – כרגע רק בשם
+    const matches = name.includes(q);
+
+    card.style.display = matches ? "" : "none";
+  });
+}
+
+// מיון: מסדר את הכרטיסים בתוך ה-grid
+function applyCatalogSort(sortValue) {
+  const grid = document.getElementById("catalog-grid");
+  if (!grid) return;
+
+  const cards = getCatalogCards();
+
+  cards.sort((a, b) => {
+    const nameA = (a.dataset.name || "").toLowerCase();
+    const nameB = (b.dataset.name || "").toLowerCase();
+    const priceA = parseFloat(a.dataset.price || "0");
+    const priceB = parseFloat(b.dataset.price || "0");
+    const popA = parseFloat(a.dataset.popularity || "999");
+    const popB = parseFloat(b.dataset.popularity || "999");
+
+    switch (sortValue) {
+      case "price-asc":
+        return priceA - priceB;
+      case "price-desc":
+        return priceB - priceA;
+      case "name":
+        return nameA.localeCompare(nameB);
+      case "popular":
+      default:
+        return popA - popB; // מספר קטן = יותר פופולרי
+    }
+  });
+
+  // מרנדר מחדש לפי הסדר החדש
+  cards.forEach((card) => grid.appendChild(card));
+}
+
+// מחבר מאזינים לשדות חיפוש ומיון
+function setupCatalogFilters() {
+  const searchInput = document.getElementById("search");
+  const sortSelect = document.getElementById("sort");
+
+  // אם זה לא דף קטלוג – לא עושים כלום
+  if (!searchInput || !sortSelect) return;
+
+  // חיפוש בזמן הקלדה
+  searchInput.addEventListener("input", () => {
+    applyCatalogSearch(searchInput.value);
+  });
+
+  // מיון כשמשנים dropdown
+  sortSelect.addEventListener("change", () => {
+    applyCatalogSort(sortSelect.value);
+
+    // אחרי מיון, שומרים גם את הפילטר של החיפוש פעיל
+    applyCatalogSearch(searchInput.value);
+  });
+
+  // הפעלה ראשונית לפי הדיפולט של ה-select
+  applyCatalogSort(sortSelect.value);
+}
 function updateCatalogProduct(productId) {
   const container = document.querySelector(`.product-actions[data-product-id="${productId}"]`);
   if (!container) return;
@@ -417,7 +490,9 @@ document.addEventListener("DOMContentLoaded", () => {
   setupAboutToggle();
   setupHomePageButton(); // For home page
   setupContactForm();
-    renderBestSeller();   
-    renderSignatureFlavors();
+  renderBestSeller();
+  renderSignatureFlavors();
+  setupCatalogFilters();
+
 
 });
