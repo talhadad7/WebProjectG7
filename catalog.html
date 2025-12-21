@@ -4,12 +4,15 @@
   <meta charset="UTF-8" />
   <title>Butter Lab | Catalog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="Css/styles.css" />
 
 </head>
 <body>
+  <!-- Global Header -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="logo">
@@ -20,7 +23,6 @@
         <a href="index.html" class="nav-link">Home</a>
         <a href="catalog.html" class="nav-link active">Catalog</a>
         <a href="checkout.html" class="nav-link">Checkout</a>
-        <a href="about.html" class="nav-link">About</a>
       </nav>
       <div class="cart-indicator">
         Cart: <span id="cart-count">0</span>
@@ -29,6 +31,7 @@
   </header>
 
   <main>
+    <!-- Catalog Hero Section -->
     <section class="page-hero small-hero">
       <div class="container">
         <h1>Catalog</h1>
@@ -36,7 +39,7 @@
       </div>
     </section>
 
-    <!-- Toolbar -->
+    <!-- Filter and Sort Toolbar -->
     <section class="section">
       <div class="container toolbar">
         <div class="toolbar-group">
@@ -54,7 +57,8 @@
         </div>
       </div>
     </section>
-    <!-- Catalog grid -->
+    
+    <!-- Product Grid Container (Populated by JS) -->
     <section class="section">
       <div class="container">
         <div class="catalog-grid" id="catalog-grid">
@@ -63,6 +67,7 @@
     </section>
   </main>
 
+  <!-- Global Footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand">
@@ -94,6 +99,7 @@
     </div>
   </footer>
 
+  <!-- Application Script -->
   <script src="script.js"></script>
 </body>
 </html>

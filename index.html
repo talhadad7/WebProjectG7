@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- Head Section: Metadata, Fonts, and Stylesheets -->
 <head>
   <meta charset="UTF-8" />
   <title>Butter Lab | Handcrafted Flavored Butter</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Google Fonts -->
+  
+  <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
     rel="stylesheet" />
-  <!-- Main CSS -->
+  
+  <!-- Main CSS Stylesheets -->
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="Css/styles.css" />
 
 </head>
 
 <body>
-  <!-- Header -->
+  <!-- Global Header: Navigation and Logo -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="logo">
@@ -26,7 +29,6 @@
         <a href="index.html" class="nav-link active">Home</a>
         <a href="catalog.html" class="nav-link">Catalog</a>
         <a href="checkout.html" class="nav-link">Checkout</a>
-        <a href="about.html" class="nav-link">About</a>
       </nav>
       <div class="cart-indicator">
         Cart: <span id="cart-count">0</span>
@@ -34,8 +36,8 @@
     </div>
   </header>
 
-  <!-- Hero -->
   <main>
+    <!-- Hero Section: Introduction and Best Seller Highlight -->
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-text">
@@ -53,6 +55,7 @@
           </div>
         </div>
 
+        <!-- Best Seller Dynamic Card -->
         <div class="hero-image-card">
           <div class="hero-pill">Best Seller</div>
           <div class="hero-image-placeholder">
@@ -73,37 +76,17 @@
 
     </section>
 
-    <!-- About snippet -->
-    <section class="section about-preview">
-      <div class="container about-grid">
-        <div class="about-text">
-          <h2>About Butter Lab</h2>
-          <p>
-            Butter Lab is an online boutique for flavored butter, handmade in small
-            batches with attention to every detail. We believe butter can be more than
-            a basic ingredient – it can be a centerpiece of flavor.
-          </p>
-          <p>
-            Our customers are food enthusiasts, hosts and gift-givers who care about
-            quality, design and a smooth, reliable online shopping experience.
-          </p>
-          <a href="about.html" class="text-link">Meet the team & learn more →</a>
-        </div>
-        <div class="about-image-card">
-          <div class="crew-image-placeholder">
-            <img src="Images/Logo2.jpeg" alt="Butter Lab logo" class="about-logo" />
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Highlight products strip -->
+
+    <!-- Featured Products Strip: Showcasing signature flavors -->
     <section class="section featured-strip">
       <div class="container">
         <h2 class="section-title">Signature Flavors</h2>
         <div class="product-strip" id="signature-strip"></div>
       </div>
     </section>
+
+    <!-- Contact Section: Form for user inquiries -->
     <section class="section contact-section" id="contact">
       <div class="container contact-grid">
         <div class="contact-text">
@@ -142,7 +125,7 @@
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Global Footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand">
@@ -175,7 +158,8 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- Main Application Script -->
+  <script type="module" src="app.js"></script>
 </body>
 
 </html>
