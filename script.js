@@ -473,23 +473,60 @@ function setupCheckoutForm() {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    messageEl.textContent = "";
+    messageEl.style.color = "#d22";
 
+    // --- cart check ---
+    const cart = getCart();
+    if (Object.keys(cart).length === 0) {
+      messageEl.textContent = "Your cart is empty.";
+      return;
+    }
+
+    // --- read & trim values ---
+    const fullName = document.getElementById("full-name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const cardLast4 = document.getElementById("card-last4").value.trim();
     const termsChecked = document.getElementById("terms").checked;
+
+    // --- validations ---
+    if (!fullName || !phone || !email || !city || !address) {
+      messageEl.textContent = "Please fill in all required fields (*).";
+      return;
+    }
+
+    if (fullName.split(" ").length < 2) {
+      messageEl.textContent = "Please enter full name (first and last).";
+      return;
+    }
+
+    if (!/^05\d{8}$/.test(phone)) {
+      messageEl.textContent = "Phone must be in format 05XXXXXXXX.";
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      messageEl.textContent = "Please enter a valid email address.";
+      return;
+    }
+
+    if (cardLast4 && !/^\d{4}$/.test(cardLast4)) {
+      messageEl.textContent = "Card last 4 digits must be exactly 4 numbers.";
+      return;
+    }
+
     if (!termsChecked) {
       messageEl.textContent = "You must accept the terms to place an order.";
-      messageEl.style.color = "#d22";
       return;
     }
 
-    const phone = document.getElementById("phone").value.trim();
-    if (!/^05\d{8}$/.test(phone)) {
-      messageEl.textContent = "Please enter a valid phone number in the format 05@@@@@@@@.";
-      messageEl.style.color = "#d22";
-      return;
-    }
-
-    messageEl.textContent = "Thank you! Your order has been placed.";
+    // --- success ---
     messageEl.style.color = "green";
+    messageEl.textContent = "Thank you! Your order has been placed.";
+
     localStorage.removeItem("cart");
     updateCartCount();
     renderCheckout();
