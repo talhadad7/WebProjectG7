@@ -23,6 +23,7 @@ function addToCart(productId, name, price) {
   }
   saveCart(cart);
   updateCartCount();
+  renderCheckout(); // Re-render the checkout list
   updateCatalogProduct(productId); // Update catalog UI
   showToast(`${name} added to cart`);
 }
@@ -75,7 +76,7 @@ const PRODUCTS = {
     weight: 150,
     image: "Images/HoneySaltButter.png",
     alt: "Honey and sea salt flavored butter",
-    popularity: 1
+    popularity: 9
   },
 
   SmokedPaprika: {
@@ -476,6 +477,13 @@ function setupCheckoutForm() {
     const termsChecked = document.getElementById("terms").checked;
     if (!termsChecked) {
       messageEl.textContent = "You must accept the terms to place an order.";
+      messageEl.style.color = "#d22";
+      return;
+    }
+
+    const phone = document.getElementById("phone").value.trim();
+    if (!/^05\d{8}$/.test(phone)) {
+      messageEl.textContent = "Please enter a valid phone number in the format 05@@@@@@@@.";
       messageEl.style.color = "#d22";
       return;
     }
