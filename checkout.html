@@ -4,8 +4,12 @@
   <meta charset="UTF-8" />
   <title>Butter Lab | Checkout</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="Css/styles.css" />
+
   <style>
     /* Styles for interactive checkout list */
     .order-item {
@@ -49,17 +53,17 @@
   </style>
 </head>
 <body>
+  <!-- Global Header -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="logo">
-        <img src="Logo2.jpeg" alt="Butter Lab logo" class="logo-img" />
+        <img src="Images/Logo2.jpeg" alt="Butter Lab logo" class="logo-img" />
         <span class="logo-text">Butter Lab</span>
       </a>
       <nav class="main-nav">
         <a href="index.html" class="nav-link">Home</a>
         <a href="catalog.html" class="nav-link">Catalog</a>
         <a href="checkout.html" class="nav-link active">Checkout</a>
-        <a href="about.html" class="nav-link">About</a>
       </nav>
       <div class="cart-indicator">
         Cart: <span id="cart-count">0</span>
@@ -68,6 +72,7 @@
   </header>
 
   <main>
+    <!-- Checkout Hero Section -->
     <section class="page-hero small-hero">
       <div class="container">
         <h1>Checkout</h1>
@@ -75,9 +80,10 @@
       </div>
     </section>
 
+    <!-- Checkout Process Container -->
     <section class="section">
       <div class="container checkout-grid">
-        <!-- Order summary (filled by JS from localStorage) -->
+        <!-- Order Summary Card (Dynamic Content) -->
         <div class="card order-summary">
           <h2>Order Summary</h2>
           <ul class="order-list" id="order-list">
@@ -92,7 +98,7 @@
           </p>
         </div>
 
-        <!-- Customer form -->
+        <!-- Customer Details Form -->
         <div class="card checkout-form-card">
           <h2>Customer Details</h2>
           <form class="checkout-form" id="checkout-form">
@@ -163,11 +169,12 @@
     </section>
   </main>
 
+  <!-- Global Footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand">
         <span class="logo">
-          <img src="Logo2.jpeg" alt="Butter Lab logo" class="logo-img small" />
+          <img src="Images/Logo2.jpeg" alt="Butter Lab logo" class="logo-img small" />
           <span class="logo-text">Butter Lab</span>
         </span>
         <p>From our lab to your table.</p>
@@ -189,6 +196,7 @@
     </div>
   </footer>
 
+  <!-- Application Script -->
   <script src="script.js"></script>
 </body>
 </html>
