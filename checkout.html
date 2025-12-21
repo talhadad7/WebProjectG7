@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <title>Butter Lab | Checkout</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="Css/styles.css" />
 
@@ -51,6 +53,7 @@
   </style>
 </head>
 <body>
+  <!-- Global Header -->
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="logo">
@@ -61,7 +64,6 @@
         <a href="index.html" class="nav-link">Home</a>
         <a href="catalog.html" class="nav-link">Catalog</a>
         <a href="checkout.html" class="nav-link active">Checkout</a>
-        <a href="about.html" class="nav-link">About</a>
       </nav>
       <div class="cart-indicator">
         Cart: <span id="cart-count">0</span>
@@ -70,6 +72,7 @@
   </header>
 
   <main>
+    <!-- Checkout Hero Section -->
     <section class="page-hero small-hero">
       <div class="container">
         <h1>Checkout</h1>
@@ -77,9 +80,10 @@
       </div>
     </section>
 
+    <!-- Checkout Process Container -->
     <section class="section">
       <div class="container checkout-grid">
-        <!-- Order summary (filled by JS from localStorage) -->
+        <!-- Order Summary Card (Dynamic Content) -->
         <div class="card order-summary">
           <h2>Order Summary</h2>
           <ul class="order-list" id="order-list">
@@ -94,7 +98,7 @@
           </p>
         </div>
 
-        <!-- Customer form -->
+        <!-- Customer Details Form -->
         <div class="card checkout-form-card">
           <h2>Customer Details</h2>
           <form class="checkout-form" id="checkout-form">
@@ -165,6 +169,7 @@
     </section>
   </main>
 
+ <!-- Global Footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand">
@@ -172,17 +177,23 @@
           <img src="Images/Logo2.jpeg" alt="Butter Lab logo" class="logo-img small" />
           <span class="logo-text">Butter Lab</span>
         </span>
-        <p>From our lab to your table.</p>
+        <p>Handcrafted flavored butter, made with love and a pinch of salt.</p>
       </div>
       <div class="footer-column">
-        <h4>Support</h4>
+        <h4>Follow us</h4>
         <ul>
-          <li><a href="#">FAQ</a></li>
-          <li><a href="#">Shipping information</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">X</a></li>
         </ul>
       </div>
       <div class="footer-column">
-        <h4>Contact</h4>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
         <p class="footer-contact">Phone: +972-50-000-0000</p>
       </div>
     </div>
@@ -191,6 +202,8 @@
     </div>
   </footer>
 
+
+  <!-- Application Script -->
   <script src="script.js"></script>
 </body>
 </html>
