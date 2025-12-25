@@ -414,6 +414,57 @@ function updateCatalogProduct(productId) {
   }
 }
 
+// --- Form Persistence ---
+
+/**
+ * Saves form field values to localStorage.
+ * @param {HTMLFormElement} form - The form element.
+ */
+function saveFormDraft(form) {
+  if (!form) return;
+  const data = {};
+  const inputs = form.querySelectorAll("input, textarea, select");
+  inputs.forEach(input => {
+    if (input.id) {
+      if (input.type === "checkbox" || input.type === "radio") {
+        data[input.id] = input.checked;
+      } else {
+        data[input.id] = input.value;
+      }
+    }
+  });
+  localStorage.setItem("draft_" + form.id, JSON.stringify(data));
+}
+
+/**
+ * Restores form field values from localStorage.
+ * @param {HTMLFormElement} form - The form element.
+ */
+function restoreFormDraft(form) {
+  if (!form) return;
+  const data = JSON.parse(localStorage.getItem("draft_" + form.id));
+  if (!data) return;
+
+  const inputs = form.querySelectorAll("input, textarea, select");
+  inputs.forEach(input => {
+    if (input.id && data.hasOwnProperty(input.id)) {
+      if (input.type === "checkbox" || input.type === "radio") {
+        input.checked = data[input.id];
+      } else {
+        input.value = data[input.id];
+      }
+    }
+  });
+}
+
+/**
+ * Clears the saved draft for a form.
+ * @param {string} formId - The ID of the form.
+ */
+function clearFormDraft(formId) {
+  localStorage.removeItem("draft_" + formId);
+}
+
 // --- Page-Specific Setups ---
 
 /**
@@ -485,6 +536,11 @@ function setupContactForm() {
   const status = document.getElementById("contact-status");
   if (!form || !status) return;
 
+  // Restore saved data if available
+  restoreFormDraft(form);
+  // Save data on changes
+  form.addEventListener("input", () => saveFormDraft(form));
+
   // Handles form submission.
   form.addEventListener("submit", (e) => {
     e.preventDefault(); // Prevents page reload.
@@ -515,6 +571,7 @@ function setupContactForm() {
     status.textContent = "Thanks! We got your message.";
     status.style.color = "green";
     showToast("Message sent");
+    clearFormDraft("contact-form");
     form.reset();
   });
 }
@@ -526,6 +583,11 @@ function setupCheckoutForm() {
   const form = document.getElementById("checkout-form");
   const messageEl = document.getElementById("order-message");
   if (!form || !messageEl) return;
+
+  // Restore saved data if available
+  restoreFormDraft(form);
+  // Save data on changes
+  form.addEventListener("input", () => saveFormDraft(form));
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -580,6 +642,7 @@ function setupCheckoutForm() {
 
     // Clear cart and reset form.
     localStorage.removeItem("cart");
+    clearFormDraft("checkout-form");
     updateCartCount();
     renderCheckout();
     form.reset();
