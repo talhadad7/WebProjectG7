@@ -4,24 +4,36 @@
 
 /* Defines custom properties (variables) for colors, radiuses, and shadows to be used throughout the stylesheet. */
 :root {
-  --color-bg: #fffaf0; /* Background color */
-  --color-primary: #d9a441; /* Primary color, like honey gold */
-  --color-secondary: #4a351b; /* Secondary color, a warm brown */
-  --color-accent: #d18528; /* Accent color, like toasted butter */
-  --color-text: #3b2c1a; /* Text color */
-  --color-muted: #8b7a63; /* Muted color for less important text */
-  --radius-lg: 24px; /* Large border radius */
-  --radius-md: 16px; /* Medium border radius */
-  --radius-sm: 10px; /* Small border radius */
-  --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.08); /* A soft box shadow */
-  --shadow-small: 0 8px 20px rgba(0, 0, 0, 0.06); /* A smaller box shadow */
+  --color-bg: #fffaf0;
+  /* Background color */
+  --color-primary: #d9a441;
+  /* Primary color, like honey gold */
+  --color-secondary: #4a351b;
+  /* Secondary color, a warm brown */
+  --color-accent: #d18528;
+  /* Accent color, like toasted butter */
+  --color-text: #3b2c1a;
+  /* Text color */
+  --color-muted: #8b7a63;
+  /* Muted color for less important text */
+  --radius-lg: 24px;
+  /* Large border radius */
+  --radius-md: 16px;
+  /* Medium border radius */
+  --radius-sm: 10px;
+  /* Small border radius */
+  --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.08);
+  /* A soft box shadow */
+  --shadow-small: 0 8px 20px rgba(0, 0, 0, 0.06);
+  /* A smaller box shadow */
 }
 
 /* A simple reset for box-sizing. */
 *,
 *::before,
 *::after {
-  box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height. */
+  box-sizing: border-box;
+  /* Ensures padding and border are included in the element's total width and height. */
 }
 
 /* Enables smooth scrolling for anchor links. */
@@ -31,24 +43,31 @@ html {
 
 /* Basic body styles. */
 body {
-  margin: 0; /* Removes default margin. */
+  margin: 0;
+  /* Removes default margin. */
   font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif; /* Sets the font for the entire page. */
-  background-color: var(--color-bg); /* Sets the background color. */
-  color: var(--color-text); /* Sets the text color. */
+    sans-serif;
+  /* Sets the font for the entire page. */
+  background-color: var(--color-bg);
+  /* Sets the background color. */
+  color: var(--color-text);
+  /* Sets the text color. */
 }
 
 /* Utilities */
 
 /* A container to center content and set a max-width. */
 .container {
-  width: min(1120px, 100% - 2rem); /* The width will be the smaller of 1120px or 100% minus 2rem. */
-  margin: 0 auto; /* Centers the container horizontally. */
+  width: min(1120px, 100% - 2rem);
+  /* The width will be the smaller of 1120px or 100% minus 2rem. */
+  margin: 0 auto;
+  /* Centers the container horizontally. */
 }
 
 /* Defines a standard section with padding. */
 .section {
-  padding: 4rem 0; /* 4rem of padding on the top and bottom. */
+  padding: 4rem 0;
+  /* 4rem of padding on the top and bottom. */
 }
 
 /* Styles for a section title. */
@@ -81,11 +100,15 @@ body {
 
 /* Styles for the site header. */
 .site-header {
-  position: sticky; /* The header will stick to the top of the viewport. */
+  position: sticky;
+  /* The header will stick to the top of the viewport. */
   top: 0;
-  z-index: 20; /* Ensures the header is above other content. */
-  backdrop-filter: blur(16px); /* Creates a blur effect for content scrolling behind the header. */
-  background: rgba(255, 250, 240, 0.92); /* A semi-transparent background. */
+  z-index: 20;
+  /* Ensures the header is above other content. */
+  backdrop-filter: blur(16px);
+  /* Creates a blur effect for content scrolling behind the header. */
+  background: rgba(255, 250, 240, 0.92);
+  /* A semi-transparent background. */
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
@@ -110,8 +133,10 @@ body {
 .logo-img {
   height: 40px;
   width: 40px;
-  object-fit: contain; /* Ensures the image fits within the dimensions without being distorted. */
-  border-radius: 999px; /* Makes the image circular. */
+  object-fit: contain;
+  /* Ensures the image fits within the dimensions without being distorted. */
+  border-radius: 999px;
+  /* Makes the image circular. */
 }
 
 /* A smaller version of the logo image. */
@@ -149,11 +174,13 @@ body {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 0; /* Initially the underline has no width. */
+  width: 0;
+  /* Initially the underline has no width. */
   height: 2px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  transition: width 0.25s ease; /* Animate the width on hover. */
+  transition: width 0.25s ease;
+  /* Animate the width on hover. */
 }
 
 /* The underline appears on hover. */
@@ -188,14 +215,16 @@ body {
   align-items: center;
   justify-content: center;
   padding: 0.7rem 1.6rem;
-  border-radius: 999px; /* Pill-shaped buttons. */
+  border-radius: 999px;
+  /* Pill-shaped buttons. */
   border: none;
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease,
-    color 0.18s ease; /* Smooth transitions for various properties. */
+    color 0.18s ease;
+  /* Smooth transitions for various properties. */
 }
 
 /* Primary button styles. */
@@ -207,8 +236,10 @@ body {
 
 /* Hover effect for the primary button. */
 .primary-btn:hover {
-  transform: translateY(-1px); /* Moves the button up slightly. */
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12); /* A more prominent shadow. */
+  transform: translateY(-1px);
+  /* Moves the button up slightly. */
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12);
+  /* A more prominent shadow. */
 }
 
 /* Secondary button styles. */
@@ -266,7 +297,8 @@ body {
 /* A grid layout for the hero section. */
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); /* Two columns with different widths. */
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  /* Two columns with different widths. */
   gap: 2.5rem;
   align-items: center;
 }
@@ -282,7 +314,8 @@ body {
 
 /* Styles for the hero heading. */
 .hero-text h1 {
-  font-size: clamp(2.1rem, 2.6vw + 1.5rem, 2.8rem); /* Responsive font size. */
+  font-size: clamp(2.1rem, 2.6vw + 1.5rem, 2.8rem);
+  /* Responsive font size. */
   margin: 0 0 1rem;
   line-height: 1.15;
 }
@@ -310,7 +343,8 @@ body {
   padding: 1.4rem 1.4rem 1.6rem;
   position: relative;
   overflow: hidden;
-  animation: floatIn 0.8s ease-out forwards; /* Apply the floatIn animation. */
+  animation: floatIn 0.8s ease-out forwards;
+  /* Apply the floatIn animation. */
   transform-origin: center;
 }
 
@@ -330,7 +364,8 @@ body {
 .hero-image-placeholder {
   border-radius: var(--radius-md);
   background: radial-gradient(circle at 10% 10%, #fff, #ffe7be);
-  aspect-ratio: 4 / 3; /* Maintains a 4:3 aspect ratio. */
+  aspect-ratio: 4 / 3;
+  /* Maintains a 4:3 aspect ratio. */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -369,6 +404,7 @@ body {
     opacity: 0;
     transform: translateY(18px) scale(0.97);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -538,7 +574,8 @@ body {
 
 /* Hover effect for the product card. */
 .product-card:hover {
-  transform: translateY(-4px); /* Moves the card up slightly. */
+  transform: translateY(-4px);
+  /* Moves the card up slightly. */
   box-shadow: var(--shadow-soft);
 }
 
@@ -848,7 +885,8 @@ body {
 
 /* Styles for the toast notification. */
 .toast {
-  position: fixed; /* Stays in place even when scrolling. */
+  position: fixed;
+  /* Stays in place even when scrolling. */
   bottom: 1.2rem;
   right: 1.2rem;
   background: #fff;
@@ -859,8 +897,10 @@ body {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  opacity: 0; /* Initially hidden. */
-  pointer-events: none; /* Not clickable when hidden. */
+  opacity: 0;
+  /* Initially hidden. */
+  pointer-events: none;
+  /* Not clickable when hidden. */
   transform: translateY(10px);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -878,7 +918,8 @@ body {
 
 /* Container for the product actions (like quantity controls). */
 .product-actions {
-  margin-top: auto; /* Pushes controls to the bottom of the card. */
+  margin-top: auto;
+  /* Pushes controls to the bottom of the card. */
 }
 
 /* Styles for the quantity control buttons and display. */
@@ -897,6 +938,7 @@ body {
   text-align: center;
   font-size: 1.1rem;
 }
+
 /* Grid for the contact page */
 .contact-grid {
   display: grid;
@@ -909,6 +951,7 @@ body {
   color: var(--color-muted);
   max-width: 520px;
 }
+
 /* Styles for the textarea in the contact form */
 .contact-form textarea {
   padding: 0.6rem 0.75rem;
@@ -916,8 +959,10 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.12);
   font-size: 0.9rem;
   font-family: inherit;
-  resize: vertical; /* Allows the user to resize the textarea vertically. */
+  resize: vertical;
+  /* Allows the user to resize the textarea vertically. */
 }
+
 /* Focus style for the textarea */
 .contact-form textarea:focus {
   outline: none;
@@ -931,28 +976,35 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
 /* Styles for product image placeholder */
 .product-image-placeholder {
-  height: 220px;              /* Fixed height */
+  height: 220px;
+  /* Fixed height */
   background: radial-gradient(circle at 0% 0%, #fff, #ffe2b5);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;           /* Important to contain the image */
+  overflow: hidden;
+  /* Important to contain the image */
 }
+
 /* Styles for the product image itself */
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensures the image covers the area, cropping if necessary. */
+  object-fit: cover;
+  /* Ensures the image covers the area, cropping if necessary. */
   display: block;
 }
+
 /* =========
    Responsive
    ========= */
 
 /* Styles for screens smaller than 900px. */
 @media (max-width: 900px) {
+
   /* Various grids become single-column. */
   .hero-grid,
   .about-grid,
@@ -984,6 +1036,7 @@ body {
 
 /* Styles for screens smaller than 640px. */
 @media (max-width: 640px) {
+
   /* Header items stack vertically. */
   .header-inner {
     flex-direction: column;
@@ -995,7 +1048,7 @@ body {
     flex-wrap: wrap;
     gap: 0.7rem;
   }
-  
+
   /* More grids become single-column. */
   .product-strip {
     grid-template-columns: minmax(0, 1fr);
@@ -1017,4 +1070,3 @@ body {
     grid-template-columns: minmax(0, 1fr);
   }
 }
-
