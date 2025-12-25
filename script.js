@@ -28,6 +28,7 @@ function addToCart(productId, name, price) {
   showToast(`${name} added to cart`);
 }
 
+
 function removeFromCart(productId) {
   const cart = getCart();
   if (!cart[productId]) return;
