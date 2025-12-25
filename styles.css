@@ -2,55 +2,62 @@
    Base setup
    ========= */
 
+/* Defines custom properties (variables) for colors, radiuses, and shadows to be used throughout the stylesheet. */
 :root {
-  --color-bg: #fffaf0;
-  --color-primary: #d9a441; /* honey gold */
-  --color-secondary: #4a351b; /* warm brown */
-  --color-accent: #d18528; /* toasted butter */
-  --color-text: #3b2c1a;
-  --color-muted: #8b7a63;
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --radius-sm: 10px;
-  --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.08);
-  --shadow-small: 0 8px 20px rgba(0, 0, 0, 0.06);
+  --color-bg: #fffaf0; /* Background color */
+  --color-primary: #d9a441; /* Primary color, like honey gold */
+  --color-secondary: #4a351b; /* Secondary color, a warm brown */
+  --color-accent: #d18528; /* Accent color, like toasted butter */
+  --color-text: #3b2c1a; /* Text color */
+  --color-muted: #8b7a63; /* Muted color for less important text */
+  --radius-lg: 24px; /* Large border radius */
+  --radius-md: 16px; /* Medium border radius */
+  --radius-sm: 10px; /* Small border radius */
+  --shadow-soft: 0 16px 40px rgba(0, 0, 0, 0.08); /* A soft box shadow */
+  --shadow-small: 0 8px 20px rgba(0, 0, 0, 0.06); /* A smaller box shadow */
 }
 
-/* Reset-ish */
+/* A simple reset for box-sizing. */
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  box-sizing: border-box; /* Ensures padding and border are included in the element's total width and height. */
 }
 
+/* Enables smooth scrolling for anchor links. */
 html {
   scroll-behavior: smooth;
 }
 
+/* Basic body styles. */
 body {
-  margin: 0;
+  margin: 0; /* Removes default margin. */
   font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  background-color: var(--color-bg);
-  color: var(--color-text);
+    sans-serif; /* Sets the font for the entire page. */
+  background-color: var(--color-bg); /* Sets the background color. */
+  color: var(--color-text); /* Sets the text color. */
 }
 
 /* Utilities */
 
+/* A container to center content and set a max-width. */
 .container {
-  width: min(1120px, 100% - 2rem);
-  margin: 0 auto;
+  width: min(1120px, 100% - 2rem); /* The width will be the smaller of 1120px or 100% minus 2rem. */
+  margin: 0 auto; /* Centers the container horizontally. */
 }
 
+/* Defines a standard section with padding. */
 .section {
-  padding: 4rem 0;
+  padding: 4rem 0; /* 4rem of padding on the top and bottom. */
 }
 
+/* Styles for a section title. */
 .section-title {
   font-size: 1.75rem;
   margin-bottom: 1rem;
 }
 
+/* Styles for a section subtitle. */
 .section-subtitle {
   max-width: 520px;
   margin: 0 auto 2rem;
@@ -58,10 +65,12 @@ body {
   font-size: 0.95rem;
 }
 
+/* A utility class to center text. */
 .centered {
   text-align: center;
 }
 
+/* A utility class to hide elements. */
 .hidden {
   display: none;
 }
@@ -70,15 +79,17 @@ body {
    Header
    ========= */
 
+/* Styles for the site header. */
 .site-header {
-  position: sticky;
+  position: sticky; /* The header will stick to the top of the viewport. */
   top: 0;
-  z-index: 20;
-  backdrop-filter: blur(16px);
-  background: rgba(255, 250, 240, 0.92);
+  z-index: 20; /* Ensures the header is above other content. */
+  backdrop-filter: blur(16px); /* Creates a blur effect for content scrolling behind the header. */
+  background: rgba(255, 250, 240, 0.92); /* A semi-transparent background. */
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
 
+/* Inner container for the header content. */
 .header-inner {
   display: flex;
   align-items: center;
@@ -87,6 +98,7 @@ body {
   gap: 1rem;
 }
 
+/* Styles for the logo link. */
 .logo {
   display: inline-flex;
   align-items: center;
@@ -94,18 +106,21 @@ body {
   text-decoration: none;
 }
 
+/* Styles for the logo image. */
 .logo-img {
   height: 40px;
   width: 40px;
-  object-fit: contain;
-  border-radius: 999px;
+  object-fit: contain; /* Ensures the image fits within the dimensions without being distorted. */
+  border-radius: 999px; /* Makes the image circular. */
 }
 
+/* A smaller version of the logo image. */
 .logo-img.small {
   height: 32px;
   width: 32px;
 }
 
+/* Styles for the logo text. */
 .logo-text {
   font-weight: 700;
   font-size: 1.1rem;
@@ -113,11 +128,13 @@ body {
   letter-spacing: 0.03em;
 }
 
+/* Styles for the main navigation menu. */
 .main-nav {
   display: flex;
   gap: 1.25rem;
 }
 
+/* Styles for navigation links. */
 .nav-link {
   font-size: 0.95rem;
   text-decoration: none;
@@ -126,31 +143,36 @@ body {
   padding-bottom: 0.15rem;
 }
 
+/* Creates an underline effect for the navigation link. */
 .nav-link::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 0;
+  width: 0; /* Initially the underline has no width. */
   height: 2px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  transition: width 0.25s ease;
+  transition: width 0.25s ease; /* Animate the width on hover. */
 }
 
+/* The underline appears on hover. */
 .nav-link:hover::after {
   width: 100%;
 }
 
+/* Styles for the active navigation link. */
 .nav-link.active {
   color: var(--color-secondary);
   font-weight: 600;
 }
 
+/* The underline is always visible for the active link. */
 .nav-link.active::after {
   width: 100%;
 }
 
+/* Styles for the cart indicator text. */
 .cart-indicator {
   font-size: 0.85rem;
   color: var(--color-muted);
@@ -160,32 +182,36 @@ body {
    Buttons
    ========= */
 
+/* Base styles for all buttons. */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.7rem 1.6rem;
-  border-radius: 999px;
+  border-radius: 999px; /* Pill-shaped buttons. */
   border: none;
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease,
-    color 0.18s ease;
+    color 0.18s ease; /* Smooth transitions for various properties. */
 }
 
+/* Primary button styles. */
 .primary-btn {
   background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
   color: #fff;
   box-shadow: var(--shadow-soft);
 }
 
+/* Hover effect for the primary button. */
 .primary-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px); /* Moves the button up slightly. */
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12); /* A more prominent shadow. */
 }
 
+/* Secondary button styles. */
 .secondary-btn {
   background: #fff;
   color: var(--color-secondary);
@@ -193,32 +219,37 @@ body {
   box-shadow: var(--shadow-small);
 }
 
+/* Hover effect for the secondary button. */
 .secondary-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
 }
 
+/* Ghost button styles (transparent background). */
 .ghost-btn {
   border: 1px solid rgba(0, 0, 0, 0.1);
   background: transparent;
   color: var(--color-secondary);
 }
 
+/* Hover effect for the ghost button. */
 .ghost-btn:hover {
   background: rgba(0, 0, 0, 0.03);
 }
 
+/* A utility class to make a button full-width. */
 .full-width {
   width: 100%;
 }
 
-/* Text link */
+/* Text link styles. */
 .text-link {
   color: var(--color-accent);
   text-decoration: none;
   font-weight: 500;
 }
 
+/* Underline on hover for text links. */
 .text-link:hover {
   text-decoration: underline;
 }
@@ -227,17 +258,20 @@ body {
    Hero (home)
    ========= */
 
+/* Styles for the hero section on the homepage. */
 .hero {
   padding: 4rem 0 3.5rem;
 }
 
+/* A grid layout for the hero section. */
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); /* Two columns with different widths. */
   gap: 2.5rem;
   align-items: center;
 }
 
+/* Styles for the "eyebrow" text (small text above the main heading). */
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -246,12 +280,14 @@ body {
   margin-bottom: 0.75rem;
 }
 
+/* Styles for the hero heading. */
 .hero-text h1 {
-  font-size: clamp(2.1rem, 2.6vw + 1.5rem, 2.8rem);
+  font-size: clamp(2.1rem, 2.6vw + 1.5rem, 2.8rem); /* Responsive font size. */
   margin: 0 0 1rem;
   line-height: 1.15;
 }
 
+/* Styles for the hero description text. */
 .hero-description {
   color: var(--color-muted);
   font-size: 0.98rem;
@@ -259,13 +295,14 @@ body {
   margin-bottom: 1.7rem;
 }
 
+/* Container for the hero action buttons. */
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.9rem;
 }
 
-/* Hero card */
+/* Styles for the hero image card. */
 .hero-image-card {
   background: #fff;
   border-radius: var(--radius-lg);
@@ -273,10 +310,11 @@ body {
   padding: 1.4rem 1.4rem 1.6rem;
   position: relative;
   overflow: hidden;
-  animation: floatIn 0.8s ease-out forwards;
+  animation: floatIn 0.8s ease-out forwards; /* Apply the floatIn animation. */
   transform-origin: center;
 }
 
+/* A small pill-shaped badge on the hero card. */
 .hero-pill {
   position: absolute;
   top: 1.2rem;
@@ -288,10 +326,11 @@ body {
   font-size: 0.75rem;
 }
 
+/* Placeholder for the hero image. */
 .hero-image-placeholder {
   border-radius: var(--radius-md);
   background: radial-gradient(circle at 10% 10%, #fff, #ffe7be);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 3; /* Maintains a 4:3 aspect ratio. */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -300,12 +339,14 @@ body {
   color: var(--color-secondary);
 }
 
+/* Styles for the logo inside the hero section. */
 .hero-logo {
   max-width: 80%;
   max-height: 80%;
   border-radius: 16px;
 }
 
+/* Styles for the product info in the hero section. */
 .hero-product-info h2 {
   margin: 0 0 0.25rem;
   font-size: 1.25rem;
@@ -316,12 +357,13 @@ body {
   font-size: 0.9rem;
 }
 
+/* Styles for the price in the hero section. */
 .hero-price {
   margin-top: 0.5rem;
   font-weight: 600;
 }
 
-/* Simple hero animation */
+/* A simple animation to make the hero card float in. */
 @keyframes floatIn {
   from {
     opacity: 0;
@@ -337,10 +379,12 @@ body {
    About preview (home)
    ========= */
 
+/* Styles for the about preview section on the homepage. */
 .about-preview {
   border-top: 1px solid rgba(0, 0, 0, 0.04);
 }
 
+/* A grid layout for the about preview section. */
 .about-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
@@ -348,6 +392,7 @@ body {
   align-items: center;
 }
 
+/* Styles for the text in the about section. */
 .about-text h2 {
   margin-top: 0;
   margin-bottom: 0.75rem;
@@ -360,6 +405,7 @@ body {
   font-size: 0.95rem;
 }
 
+/* Styles for the image card in the about section. */
 .about-image-card {
   background: #fff;
   border-radius: var(--radius-lg);
@@ -367,6 +413,7 @@ body {
   padding: 1.25rem;
 }
 
+/* Placeholder for the crew image. */
 .crew-image-placeholder {
   border-radius: var(--radius-md);
   background: linear-gradient(135deg, #ffe6bd, #ffd2b6);
@@ -376,6 +423,7 @@ body {
   justify-content: center;
 }
 
+/* Styles for the logo in the about section. */
 .about-logo {
   max-width: 80%;
   max-height: 80%;
@@ -387,12 +435,14 @@ body {
   padding-top: 1rem;
 }
 
+/* A grid to display a strip of products. */
 .product-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.1rem;
 }
 
+/* Styles for a small card. */
 .mini-card {
   background: #fff;
   border-radius: var(--radius-md);
@@ -415,10 +465,12 @@ body {
    Page hero
    ========= */
 
+/* Styles for the hero section on general pages. */
 .page-hero {
   padding: 3rem 0 1rem;
 }
 
+/* Styles for a smaller hero section. */
 .small-hero h1 {
   margin: 0 0 0.3rem;
 }
@@ -432,6 +484,7 @@ body {
    Toolbar (catalog)
    ========= */
 
+/* Styles for the toolbar on the catalog page. */
 .toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -439,17 +492,20 @@ body {
   align-items: flex-end;
 }
 
+/* A group of items in the toolbar. */
 .toolbar-group {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
 
+/* Label for a toolbar item. */
 .toolbar-label {
   font-size: 0.8rem;
   color: var(--color-muted);
 }
 
+/* Styles for select dropdowns and input fields in the toolbar. */
 .toolbar-select,
 .toolbar-input {
   padding: 0.55rem 0.75rem;
@@ -462,12 +518,14 @@ body {
    Catalog grid
    ========= */
 
+/* Grid layout for the product catalog. */
 .catalog-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.6rem;
 }
 
+/* Styles for a single product card. */
 .product-card {
   background: #fff;
   border-radius: var(--radius-lg);
@@ -478,11 +536,13 @@ body {
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
+/* Hover effect for the product card. */
 .product-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px); /* Moves the card up slightly. */
   box-shadow: var(--shadow-soft);
 }
 
+/* Placeholder for the product image. */
 .product-image-placeholder {
   background: radial-gradient(circle at 0% 0%, #fff, #ffe2b5);
   aspect-ratio: 4 / 3;
@@ -493,6 +553,7 @@ body {
   color: var(--color-secondary);
 }
 
+/* Body of the product card containing text. */
 .product-body {
   padding: 1rem 1.2rem 1.3rem;
   display: flex;
@@ -505,13 +566,14 @@ body {
   font-size: 1.05rem;
 }
 
-
+/* Description of the product. */
 .product-description {
   margin: 0.2rem 0;
   font-size: 0.9rem;
   color: var(--color-muted);
 }
 
+/* Price of the product. */
 .product-price {
   margin: 0.4rem 0 0.8rem;
   font-weight: 600;
@@ -521,6 +583,7 @@ body {
    Cards & layout (checkout/about)
    ========= */
 
+/* Base style for a generic card. */
 .card {
   background: #fff;
   border-radius: var(--radius-lg);
@@ -528,17 +591,19 @@ body {
   box-shadow: var(--shadow-small);
 }
 
+/* Grid layout for the checkout page. */
 .checkout-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr);
   gap: 2rem;
 }
 
-/* Order summary */
+/* Styles for the order summary section. */
 .order-summary h2 {
   margin-top: 0;
 }
 
+/* List of items in the order. */
 .order-list {
   list-style: none;
   margin: 1rem 0;
@@ -548,6 +613,7 @@ body {
   gap: 0.9rem;
 }
 
+/* A single item in the order list. */
 .order-item {
   display: flex;
   justify-content: space-between;
@@ -559,6 +625,7 @@ body {
   font-weight: 500;
 }
 
+/* Meta information for an order item (e.g., quantity). */
 .order-meta {
   margin: 0.1rem 0 0;
   font-size: 0.85rem;
@@ -570,6 +637,7 @@ body {
   font-weight: 600;
 }
 
+/* The total price section of the order. */
 .order-total {
   margin-top: 1rem;
   padding-top: 0.8rem;
@@ -579,29 +647,33 @@ body {
   font-weight: 600;
 }
 
+/* A small note at the bottom. */
 .small-note {
   margin-top: 0.7rem;
   font-size: 0.8rem;
   color: var(--color-muted);
 }
 
-/* Checkout form */
+/* Styles for the checkout form card. */
 .checkout-form-card h2 {
   margin-top: 0;
 }
 
+/* The checkout form itself. */
 .checkout-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
+/* A row in the form, often with two columns. */
 .form-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
 
+/* A single field in the form. */
 .form-field {
   display: flex;
   flex-direction: column;
@@ -613,6 +685,7 @@ body {
   color: var(--color-muted);
 }
 
+/* Styles for input and select elements in the form. */
 .form-field input,
 .form-field select {
   padding: 0.6rem 0.75rem;
@@ -621,12 +694,14 @@ body {
   font-size: 0.9rem;
 }
 
+/* Focus style for form inputs. */
 .form-field input:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 1px rgba(217, 164, 65, 0.35);
 }
 
+/* Styles for a checkbox field. */
 .checkbox-field label {
   display: flex;
   gap: 0.5rem;
@@ -638,18 +713,20 @@ body {
   margin-top: 0.2rem;
 }
 
+/* Subtitle within a form. */
 .form-subtitle {
   font-size: 0.95rem;
   margin: 0.6rem 0 0.1rem;
 }
 
-/* About full grid */
+/* Grid layout for the full about page. */
 .about-full-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   gap: 2rem;
 }
 
+/* Styles for a list on the about page. */
 .about-list {
   padding-left: 1.1rem;
   margin: 0.4rem 0 0;
@@ -657,7 +734,7 @@ body {
   font-size: 0.9rem;
 }
 
-/* Crew cards */
+/* Styles for the crew cards grid. */
 .crew-grid {
   margin-top: 2rem;
   display: grid;
@@ -665,6 +742,7 @@ body {
   gap: 1.6rem;
 }
 
+/* A single card for a crew member. */
 .crew-card {
   background: #fff;
   border-radius: var(--radius-lg);
@@ -673,6 +751,7 @@ body {
   text-align: center;
 }
 
+/* Placeholder for a crew member's avatar. */
 .crew-avatar-placeholder {
   width: 64px;
   height: 64px;
@@ -701,12 +780,14 @@ body {
    Footer
    ========= */
 
+/* Styles for the site footer. */
 .site-footer {
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   margin-top: 3rem;
   background: #fff7e3;
 }
 
+/* Grid layout for the footer. */
 .footer-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
@@ -720,6 +801,7 @@ body {
   color: var(--color-muted);
 }
 
+/* A column in the footer. */
 .footer-column h4 {
   margin: 0 0 0.5rem;
   font-size: 0.95rem;
@@ -745,11 +827,13 @@ body {
   color: var(--color-secondary);
 }
 
+/* Contact info in the footer. */
 .footer-contact {
   font-size: 0.9rem;
   color: var(--color-muted);
 }
 
+/* The bottom bar of the footer. */
 .footer-bottom {
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   text-align: center;
@@ -759,11 +843,12 @@ body {
 }
 
 /* =========
-   Toast (הודעת הוספה לעגלה)
+   Toast (Add to cart message)
    ========= */
 
+/* Styles for the toast notification. */
 .toast {
-  position: fixed;
+  position: fixed; /* Stays in place even when scrolling. */
   bottom: 1.2rem;
   right: 1.2rem;
   background: #fff;
@@ -774,12 +859,13 @@ body {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0; /* Initially hidden. */
+  pointer-events: none; /* Not clickable when hidden. */
   transform: translateY(10px);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+/* Styles for when the toast is visible. */
 .toast.visible {
   opacity: 1;
   pointer-events: auto;
@@ -790,10 +876,12 @@ body {
    Catalog quantity controls
    ========= */
 
+/* Container for the product actions (like quantity controls). */
 .product-actions {
-  margin-top: auto; /* Pushes controls to the bottom */
+  margin-top: auto; /* Pushes controls to the bottom of the card. */
 }
 
+/* Styles for the quantity control buttons and display. */
 .quantity-control {
   display: flex;
   align-items: center;
@@ -802,12 +890,14 @@ body {
   width: 100%;
 }
 
+/* The element that displays the current quantity. */
 .quantity-display {
   font-weight: 500;
   min-width: 20px;
   text-align: center;
   font-size: 1.1rem;
 }
+/* Grid for the contact page */
 .contact-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
@@ -819,46 +909,51 @@ body {
   color: var(--color-muted);
   max-width: 520px;
 }
-
+/* Styles for the textarea in the contact form */
 .contact-form textarea {
   padding: 0.6rem 0.75rem;
   border-radius: 0.75rem;
   border: 1px solid rgba(0, 0, 0, 0.12);
   font-size: 0.9rem;
   font-family: inherit;
-  resize: vertical;
+  resize: vertical; /* Allows the user to resize the textarea vertically. */
 }
-
+/* Focus style for the textarea */
 .contact-form textarea:focus {
   outline: none;
   border-color: var(--color-primary);
   box-shadow: 0 0 0 1px rgba(217, 164, 65, 0.35);
 }
 
+/* On smaller screens, the contact grid becomes a single column. */
 @media (max-width: 900px) {
   .contact-grid {
     grid-template-columns: 1fr;
   }
 }
+/* Styles for product image placeholder */
 .product-image-placeholder {
-  height: 220px;              /* 👈 הגובה הקובע */
+  height: 220px;              /* Fixed height */
   background: radial-gradient(circle at 0% 0%, #fff, #ffe2b5);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;           /* 👈 חשוב */
+  overflow: hidden;           /* Important to contain the image */
 }
+/* Styles for the product image itself */
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* Ensures the image covers the area, cropping if necessary. */
   display: block;
 }
 /* =========
    Responsive
    ========= */
 
+/* Styles for screens smaller than 900px. */
 @media (max-width: 900px) {
+  /* Various grids become single-column. */
   .hero-grid,
   .about-grid,
   .checkout-grid,
@@ -887,7 +982,9 @@ body {
   }
 }
 
+/* Styles for screens smaller than 640px. */
 @media (max-width: 640px) {
+  /* Header items stack vertically. */
   .header-inner {
     flex-direction: column;
     align-items: flex-start;
@@ -898,7 +995,8 @@ body {
     flex-wrap: wrap;
     gap: 0.7rem;
   }
-
+  
+  /* More grids become single-column. */
   .product-strip {
     grid-template-columns: minmax(0, 1fr);
   }

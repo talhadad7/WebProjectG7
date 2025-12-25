@@ -109,7 +109,15 @@
               </div>
               <div class="form-field">
                 <label for="phone">Phone *</label>
-                <input type="tel" id="phone" required placeholder="05X-XXXXXXX" />
+                <input
+                  type="tel"
+                  id="phone"
+                  required
+                  placeholder="05XXXXXXXX"
+                  pattern="05\d{8}"
+                  title="Enter a 10-digit phone number starting with 05 (e.g. 0521234567)"
+                  inputmode="tel"
+                />
               </div>
             </div>
 
