@@ -543,7 +543,6 @@ function setupContactForm() {
 
   // Handles form submission.
   form.addEventListener("submit", (e) => {
-    e.preventDefault(); // Prevents page reload.
 
     const name = document.getElementById("contact-name").value.trim();
     const email = document.getElementById("contact-email").value.trim();
@@ -552,27 +551,26 @@ function setupContactForm() {
 
     // Validations.
     if (!name || !email || !message) {
+      e.preventDefault();
       status.textContent = "Please fill in all required fields (*).";
       status.style.color = "#d22";
       return;
     }
     if (!emailOk) {
+      e.preventDefault();
       status.textContent = "Please enter a valid email address.";
       status.style.color = "#d22";
       return;
     }
     if (message.length < 10) {
+      e.preventDefault(); 
       status.textContent = "Message is too short (min 10 characters).";
       status.style.color = "#d22";
       return;
     }
 
     // On success.
-    status.textContent = "Thanks! We got your message.";
-    status.style.color = "green";
-    showToast("Message sent");
     clearFormDraft("contact-form");
-    form.reset();
   });
 }
 
