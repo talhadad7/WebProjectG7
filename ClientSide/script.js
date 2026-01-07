@@ -563,7 +563,7 @@ function setupContactForm() {
       return;
     }
     if (message.length < 10) {
-      e.preventDefault(); 
+      e.preventDefault();
       status.textContent = "Message is too short (min 10 characters).";
       status.style.color = "#d22";
       return;
@@ -578,28 +578,37 @@ function setupContactForm() {
  * Sets up validation and submission handling for the checkout form.
  */
 function setupCheckoutForm() {
+  // שליפת טופס ההזמנה ואלמנט ההודעות מה-DOM
   const form = document.getElementById("checkout-form");
   const messageEl = document.getElementById("order-message");
+
+  // אם אחד מהם לא קיים – אין טעם להמשיך
   if (!form || !messageEl) return;
 
-  // Restore saved data if available
+  // שחזור טיוטת טופס (אם המשתמש התחיל למלא קודם)
   restoreFormDraft(form);
-  // Save data on changes
+
+  // שמירת טיוטה בכל שינוי בשדות הטופס
   form.addEventListener("input", () => saveFormDraft(form));
 
-  form.addEventListener("submit", (e) => {
+  // טיפול בשליחת הטופס
+  form.addEventListener("submit", async (e) => {
+    // ביטול ההתנהגות הדיפולטיבית של טופס (רענון עמוד)
     e.preventDefault();
+
+    // איפוס הודעה קודמת והגדרת צבע שגיאה כברירת מחדל
     messageEl.textContent = "";
     messageEl.style.color = "#d22";
 
-    // Check if cart is empty.
+    // 1️⃣ בדיקה שהעגלה לא ריקה
+    // getCart() מחזירה אובייקט מה-localStorage
     const cart = getCart();
     if (Object.keys(cart).length === 0) {
       messageEl.textContent = "Your cart is empty.";
       return;
     }
 
-    // Read and trim form values.
+    // 2️⃣ קריאת שדות הטופס וניקוי רווחים
     const fullName = document.getElementById("full-name").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -608,42 +617,134 @@ function setupCheckoutForm() {
     const cardLast4 = document.getElementById("card-last4").value.trim();
     const termsChecked = document.getElementById("terms").checked;
 
-    // --- Validations ---
+    // 3️⃣ ולידציות בסיסיות בצד לקוח
+
+    // בדיקה שכל שדות החובה מלאים
     if (!fullName || !phone || !email || !city || !address) {
       messageEl.textContent = "Please fill in all required fields (*).";
       return;
     }
+
+    // בדיקה שהוזן שם מלא (לפחות שתי מילים)
     if (fullName.split(" ").length < 2) {
       messageEl.textContent = "Please enter full name (first and last).";
       return;
     }
+
+    // בדיקת פורמט טלפון
     if (!/^\+?\d{9,12}$/.test(phone)) {
       messageEl.textContent = "Please enter a valid phone number.";
       return;
     }
+
+    // בדיקת פורמט אימייל
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       messageEl.textContent = "Please enter a valid email address.";
       return;
     }
+
+    // בדיקת 4 ספרות אחרונות של כרטיס (אם הוזן)
     if (cardLast4 && !/^\d{4}$/.test(cardLast4)) {
       messageEl.textContent = "Card last 4 digits must be exactly 4 numbers.";
       return;
     }
+
+    // בדיקה שהמשתמש אישר תנאים
     if (!termsChecked) {
       messageEl.textContent = "You must accept the terms to place an order.";
       return;
     }
 
-    // --- On Success ---
-    messageEl.style.color = "green";
-    messageEl.textContent = "Thank you! Your order has been placed.";
+    // 4️⃣ בניית רשימת המוצרים להזמנה מתוך העגלה
+    // Object.entries עובר על כל מוצר בעגלה
+    const items = Object.entries(cart).map(([id, item]) => ({
+      // מזהה המוצר
+      productId: id,
 
-    // Clear cart and reset form.
-    localStorage.removeItem("cart");
-    clearFormDraft("checkout-form");
-    updateCartCount();
-    renderCheckout();
-    form.reset();
+      // שם המוצר
+      name: item.name,
+
+      // מחיר ליחידה
+      price: item.price,
+
+      // כמות שנבחרה
+      quantity: item.quantity,
+
+      // סך הכל לשורה (מחיר * כמות)
+      lineTotal: item.price * item.quantity,
+    }));
+
+    // חישוב הסכום הכולל של ההזמנה
+    const total = items.reduce((sum, it) => sum + it.lineTotal, 0);
+
+    // 5️⃣ בניית אובייקט ההזמנה (payload) לשליחה לשרת
+    const orderPayload = {
+      customer: {
+        fullName,
+        phone,
+        email,
+        city,
+        address,
+
+        // שדות אופציונליים
+        zip: document.getElementById("zip")?.value.trim() || "",
+        notes: document.getElementById("notes")?.value.trim() || "",
+      },
+
+      // מערך הפריטים בהזמנה
+      items,
+
+      // סכום כולל
+      total,
+
+      // תאריך ושעת יצירת ההזמנה
+      createdAt: new Date().toISOString(),
+    };
+
+    // 6️⃣ שליחת ההזמנה לשרת
+    try {
+      // עדכון UI – מצב טעינה
+      messageEl.style.color = "#333";
+      messageEl.textContent = "Placing order...";
+
+      // שליחת POST לשרת עם fetch
+      const resp = await fetch("http://localhost:3000/order", {
+        method: "POST",
+        headers: {
+          // מציין שהנתונים נשלחים כ-JSON
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderPayload),
+      });
+
+      // קריאת תשובת השרת
+      const data = await resp.json();
+
+      // בדיקה אם השרת החזיר שגיאה
+      if (!resp.ok || !data.success) {
+        messageEl.style.color = "#d22";
+        messageEl.textContent =
+          data.message || "Something went wrong. Please try again.";
+        return;
+      }
+
+      // 7️⃣ הצלחה – השרת אישר את ההזמנה
+      messageEl.style.color = "green";
+      messageEl.textContent = `Thank you! Order #${data.orderId} has been placed.`;
+
+      // ניקוי מצב האפליקציה
+      localStorage.removeItem("cart");      // מחיקת העגלה
+      clearFormDraft("checkout-form");      // מחיקת טיוטת טופס
+      updateCartCount();                    // עדכון מונה עגלה
+      renderCheckout();                     // רינדור מחדש של Checkout
+      form.reset();                         // איפוס הטופס
+
+    } catch (err) {
+      // 8️⃣ טיפול בשגיאת רשת / שרת לא זמין
+      messageEl.style.color = "#d22";
+      messageEl.textContent =
+        "Cannot reach server. Is it running on localhost:3000?";
+    }
   });
 }
 
