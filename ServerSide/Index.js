@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const db = require("../db.js");
+const bodyParser = require("body-parser");
 
 app.use(express.urlencoded({ extended: true })); // בשביל form רגיל (application/x-www-form-urlencoded)
 app.use(express.json()); // בשביל JSON
@@ -16,15 +18,19 @@ app.post("/contact", (req, res) => {
   const { name, email, subject, message } = req.body;
 
   console.log("New contact:", req.body);
+  const sql = "INSERT INTO contacts (name, email, subject, message) VALUES (?, ?, ?, ?)";
+  db.query(sql, [name, email, subject, message], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("DB error");
+    }
 
-  res.send(`
-    <h1>Contact received</h1>
-    <p><b>Name:</b> ${name}</p>
-    <p><b>Email:</b> ${email}</p>
-    <p><b>Subject:</b> ${subject}</p>
-    <p><b>Message:</b> ${message}</p>
-    <a href="javascript:history.back()">Back</a>
-  `);
+    res.json({
+      success: true,
+      ticketId: result.insertId
+    });
+  });
+
 });
 app.post("/order", (req, res) => {
   const { customer, items, total } = req.body;
@@ -47,6 +53,12 @@ app.post("/order", (req, res) => {
     success: true,
     orderId,
     message: "Order received",
+  });
+});
+app.get("/db-test", (req, res) => {
+  db.query("SELECT DATABASE() AS db, 1 AS ok", (err, results) => {
+    if (err) return res.status(500).send(err.message);
+    res.json(results);
   });
 });
 const PORT = 3000;
