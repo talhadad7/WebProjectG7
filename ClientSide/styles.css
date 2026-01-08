@@ -988,7 +988,23 @@ body {
   overflow: hidden;
   /* Important to contain the image */
 }
+#contact-status.success {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #e6f9ed;
+  color: #1e7e34;
+  border: 1px solid #b7ebc6;
+}
 
+#contact-status.error {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #fdecea;
+  color: #a61b1b;
+  border: 1px solid #f5c2c7;
+}
 /* Styles for the product image itself */
 .product-image {
   width: 100%;

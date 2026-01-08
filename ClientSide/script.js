@@ -542,10 +542,11 @@ function setupContactForm() {
   form.addEventListener("input", () => saveFormDraft(form));
 
   // Handles form submission.
-  form.addEventListener("submit", (e) => {
-
+  form.addEventListener("submit", async (e) => {
+e.preventDefault();
     const name = document.getElementById("contact-name").value.trim();
     const email = document.getElementById("contact-email").value.trim();
+    const subject = document.getElementById("contact-subject")?.value.trim() || "";
     const message = document.getElementById("contact-message").value.trim();
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -557,20 +558,43 @@ function setupContactForm() {
       return;
     }
     if (!emailOk) {
-      e.preventDefault();
       status.textContent = "Please enter a valid email address.";
       status.style.color = "#d22";
       return;
     }
     if (message.length < 10) {
-      e.preventDefault();
       status.textContent = "Message is too short (min 10 characters).";
       status.style.color = "#d22";
       return;
     }
 
-    // On success.
-    clearFormDraft("contact-form");
+  try {
+    const res = await fetch("/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, subject, message }),
+    });
+
+    const result = await res.json();
+
+    if (res.ok && result.success) {
+      status.innerHTML = `✅ Message sent successfully. Ticket #<b>${result.ticketId}</b>`;
+      status.className = "small-note success";
+
+      clearFormDraft("contact-form");
+      form.reset();
+
+      // אם בא לך שייעלם אחרי 5 שניות:
+      // setTimeout(() => { status.textContent = ""; status.className = "small-note"; }, 5000);
+
+    } else {
+      status.textContent = "❌ Something went wrong. Please try again.";
+      status.className = "small-note error";
+    }
+  } catch (err) {
+    status.textContent = "❌ Server not reachable. Try again.";
+    status.className = "small-note error";
+  }
   });
 }
 
@@ -708,7 +732,7 @@ function setupCheckoutForm() {
       messageEl.textContent = "Placing order...";
 
       // שליחת POST לשרת עם fetch
-      const resp = await fetch("http://localhost:3000/order", {
+      const resp = await fetch("/order", {
         method: "POST",
         headers: {
           // מציין שהנתונים נשלחים כ-JSON
