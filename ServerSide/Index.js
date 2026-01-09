@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const db = require("../db.js");
+const db = require("./db");
 const bodyParser = require("body-parser");
 
 app.use(express.urlencoded({ extended: true })); // בשביל form רגיל (application/x-www-form-urlencoded)
