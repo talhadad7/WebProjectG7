@@ -85,92 +85,25 @@ function deleteItemFromCart(productId) {
 }
 
 // --- Product Data and Rendering ---
+async function loadProductsFromServer() {
+  const res = await fetch("/products");
+  if (!res.ok) throw new Error("Failed to load products");
+  const arr = await res.json();
 
-// An object containing all product information.
-const PRODUCTS = {
-  GarlicHerb: {
-    id: "GarlicHerb",
-    name: "Garlic & Herb Butter",
-    flavor: "Fresh garlic, parsley & thyme",
-    description: "A classic savory butter, perfect for bread, pasta and roasted veggies.",
-    price: 29,
-    weight: 150, // grams
-    image: "Images/GarlicHerbButter.png",
-    alt: "Garlic and herb flavored butter",
-    popularity: 2
-  },
-
-  HoneySeaSalt: {
-    id: "HoneySeaSalt",
-    name: "Honey & Sea Salt Butter",
-    flavor: "Wild honey & sea salt crystals",
-    description: "Soft, sweet and slightly salty – perfect for brunch and desserts.",
-    price: 32,
-    weight: 150,
-    image: "Images/HoneySaltButter.png",
-    alt: "Honey and sea salt flavored butter",
-    popularity: 9
-  },
-
-  SmokedPaprika: {
-    id: "SmokedPaprika",
-    name: "Smoked Paprika Butter",
-    flavor: "Smoked paprika & roasted garlic",
-    description: "Rich and smoky flavor that upgrades any grilled dish or steak.",
-    price: 31,
-    weight: 150,
-    image: "Images/PaprikaButter.png",
-    alt: "Smoked paprika flavored butter",
-    popularity: 3
-  },
-
-  LemonDill: {
-    id: "LemonDill",
-    name: "Lemon & Dill Butter",
-    flavor: "Lemon zest & fresh dill",
-    description: "Bright and fresh, ideal for fish, veggies and light dishes.",
-    price: 30,
-    weight: 150,
-    image: "Images/LemonDillButter.png",
-    alt: "Lemon and dill flavored butter",
-    popularity: 4
-  },
-  ChiliAnchovy: {
-    id: "ChiliAnchovy",
-    name: "Chili & Anchovy Butter",
-    flavor: "Chili flakes, anchovy & herbs",
-    description: "A bold, umami-packed butter with a spicy kick—amazing on pasta, toast and grilled fish.",
-    price: 34,
-    weight: 150,
-    image: "Images/ChiliAnchovyButter.png",
-    alt: "Chili and anchovy flavored butter slices on a wooden board",
-    popularity: 5
-  },
-
-  CaramelizedOnion: {
-    id: "CaramelizedOnion",
-    name: "Caramelized Onion Butter",
-    flavor: "Slow-cooked caramelized onions",
-    description: "Sweet and savory butter with rich onion depth—perfect for steaks, burgers, mashed potatoes and toast.",
-    price: 33,
-    weight: 150,
-    image: "Images/CaramelizedOnionButter.png",
-    alt: "Caramelized onion flavored butter slices on a wooden board",
-    popularity: 6
-  },
-
-  BrownButterCinnamonVanilla: {
-    id: "BrownButterCinnamonVanilla",
-    name: "Brown Butter with Cinnamon, Vanilla & Brown Sugar",
-    flavor: "Brown butter, cinnamon, vanilla & brown sugar",
-    description: "Warm, nutty and dessert-ready—spread on pancakes, waffles, banana bread or warm brioche.",
-    price: 35,
-    weight: 150,
-    image: "Images/BrownButterCinnamonVanilla.png",
-    alt: "Brown butter with cinnamon and vanilla slices on a wooden board",
-    popularity: 7
+  const productsObj = {};
+  for (const p of arr) {
+    productsObj[p.id] = {
+      ...p,
+      price: Number(p.price),
+      weight: Number(p.weight),
+      popularity: Number(p.popularity),
+    };
   }
-};
+  return productsObj;
+}
+// An object containing all product information.
+let PRODUCTS = {};
+
 
 // An array of product IDs to be featured as signature flavors.
 const SIGNATURE_FLAVORS = ["GarlicHerb", "SmokedPaprika"];
@@ -806,8 +739,17 @@ function showToast(message) {
 
 // --- On Load ---
 // This runs when the page is fully loaded.
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   updateCartCount();
+
+  try {
+    PRODUCTS = await loadProductsFromServer();
+  } catch (err) {
+    console.error("Failed to load products from server:", err);
+    PRODUCTS = {}; // אין fallback – פשוט אין מוצרים
+  }
+
+  // עכשיו שה-PRODUCTS נטען, מותר לרנדר:
   renderCatalog();
   renderCheckout();
   setupCheckoutForm();

@@ -61,6 +61,22 @@ app.get("/db-test", (req, res) => {
     res.json(results);
   });
 });
+
+app.get("/products", (req, res) => {
+  const sql = `
+    SELECT id, name, flavor, description, price, weight, image, alt, popularity
+    FROM products
+    ORDER BY popularity DESC
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("DB error");
+    }
+    res.json(results);
+  });
+});
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
