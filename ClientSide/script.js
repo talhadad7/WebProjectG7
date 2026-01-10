@@ -476,7 +476,7 @@ function setupContactForm() {
 
   // Handles form submission.
   form.addEventListener("submit", async (e) => {
-e.preventDefault();
+    e.preventDefault();
     const name = document.getElementById("contact-name").value.trim();
     const email = document.getElementById("contact-email").value.trim();
     const subject = document.getElementById("contact-subject")?.value.trim() || "";
@@ -501,33 +501,33 @@ e.preventDefault();
       return;
     }
 
-  try {
-    const res = await fetch("/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, subject, message }),
-    });
+    try {
+      const res = await fetch("/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, subject, message }),
+      });
 
-    const result = await res.json();
+      const result = await res.json();
 
-    if (res.ok && result.success) {
-      status.innerHTML = `✅ Message sent successfully. Ticket #<b>${result.ticketId}</b>`;
-      status.className = "small-note success";
+      if (res.ok && result.success) {
+        status.innerHTML = `✅ Message sent successfully. Ticket #<b>${result.ticketId}</b>`;
+        status.className = "small-note success";
 
-      clearFormDraft("contact-form");
-      form.reset();
+        clearFormDraft("contact-form");
+        form.reset();
 
-      // אם בא לך שייעלם אחרי 5 שניות:
-      // setTimeout(() => { status.textContent = ""; status.className = "small-note"; }, 5000);
+        // אם בא לך שייעלם אחרי 5 שניות:
+        // setTimeout(() => { status.textContent = ""; status.className = "small-note"; }, 5000);
 
-    } else {
-      status.textContent = "❌ Something went wrong. Please try again.";
+      } else {
+        status.textContent = "❌ Something went wrong. Please try again.";
+        status.className = "small-note error";
+      }
+    } catch (err) {
+      status.textContent = "❌ Server not reachable. Try again.";
       status.className = "small-note error";
     }
-  } catch (err) {
-    status.textContent = "❌ Server not reachable. Try again.";
-    status.className = "small-note error";
-  }
   });
 }
 
@@ -637,17 +637,14 @@ function setupCheckoutForm() {
     // 5️⃣ בניית אובייקט ההזמנה (payload) לשליחה לשרת
     const orderPayload = {
       customer: {
-        fullName,
+        full_name: fullName,
         phone,
         email,
         city,
         address,
-
-        // שדות אופציונליים
         zip: document.getElementById("zip")?.value.trim() || "",
         notes: document.getElementById("notes")?.value.trim() || "",
       },
-
       // מערך הפריטים בהזמנה
       items,
 

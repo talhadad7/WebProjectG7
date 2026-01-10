@@ -35,7 +35,7 @@ app.post("/contact", (req, res) => {
 app.post("/order", (req, res) => {
   const { customer, items, total } = req.body;
 
-  // ולידציה בסיסית
+  // 1) ולידציה בסיסית (שומרים כרגע רק orders, אבל בודקים שיש עגלה)
   if (!customer || !Array.isArray(items) || items.length === 0) {
     return res.status(400).json({
       success: false,
@@ -43,16 +43,101 @@ app.post("/order", (req, res) => {
     });
   }
 
-  // מספר הזמנה מדומה (בינתיים)
-  const orderId = Math.floor(100000 + Math.random() * 900000);
+  const {
+    full_name,
+    phone,
+    email,
+    city,
+    address,
+    zip,
+    notes,
+  } = customer;
 
-  console.log("New order received:", { orderId, customer, items, total });
+  // 2) בדיקת שדות חובה מהטופס
+  if (!full_name || !phone || !email || !city || !address) {
+    return res.status(400).json({
+      success: false,
+      message: "Missing required customer fields",
+    });
+  }
 
-  // בעתיד: כאן נשמור ל-DB (orders + order_items)
-  return res.status(201).json({
-    success: true,
-    orderId,
-    message: "Order received",
+  // 3) לוודא ש-total מספר תקין
+  const computedTotal = items.reduce((sum, item) => {
+    const price = Number(item.price);
+    const qty = Number(item.quantity);
+
+    if (!Number.isFinite(price) || !Number.isFinite(qty) || qty <= 0) return sum;
+    return sum + price * qty;
+  }, 0);
+
+  if (!Number.isFinite(computedTotal) || computedTotal <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid computed total",
+    });
+  }
+
+  // 4) INSERT ל-DB לטבלת orders
+  const sql = `
+    INSERT INTO orders
+      (full_name, phone, email, city, address, zip, notes, total)
+    VALUES
+      (?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const values = [
+    full_name,
+    phone,
+    email,
+    city,
+    address,
+    zip || null,
+    notes || null,
+    computedTotal,
+  ];
+
+  // חשוב: db צריך להיות ה-connection/pool שלך מ-db.js
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error("DB error creating order:", err);
+      return res.status(500).json({
+        success: false,
+        message: "DB error",
+      });
+    }
+
+    // ID של ההזמנה שנוצרה
+    const orderId = result.insertId;
+
+    // בניית ערכים ל-order_items
+    const itemsValues = items.map((item) => [
+      orderId,
+      item.productId,          // מגיע מה-frontend
+      item.quantity,
+      item.price,              // מחיר ליחידה
+    ]);
+
+    const itemsSql = `
+    INSERT INTO order_items
+      (order_id, product_id, quantity, unit_price)
+    VALUES ?
+  `;
+
+    db.query(itemsSql, [itemsValues], (err2) => {
+      if (err2) {
+        console.error("DB error creating order_items:", err2);
+        return res.status(500).json({
+          success: false,
+          message: "DB error (order items)",
+        });
+      }
+
+      return res.status(201).json({
+        success: true,
+        orderId,
+        message: "Order saved",
+      });
+    });
   });
 });
 app.get("/db-test", (req, res) => {

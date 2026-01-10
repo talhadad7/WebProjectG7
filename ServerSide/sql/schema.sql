@@ -1,0 +1,49 @@
+CREATE DATABASE IF NOT EXISTS butterlab
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+
+USE butterlab;
+
+CREATE TABLE IF NOT EXISTS contacts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  subject VARCHAR(200),
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS products (
+  id VARCHAR(60) PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  flavor VARCHAR(200),
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL,
+  weight INT,
+  image VARCHAR(255),
+  alt VARCHAR(255),
+  popularity INT DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(150) NOT NULL,
+  phone VARCHAR(30) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  city VARCHAR(100) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  zip VARCHAR(20),
+  notes TEXT,
+  total DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  order_id INT NOT NULL,
+  product_id VARCHAR(60) NOT NULL,
+  quantity INT NOT NULL,
+  unit_price DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (order_id, product_id),
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT
+);
