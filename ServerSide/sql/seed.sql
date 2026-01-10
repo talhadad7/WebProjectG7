@@ -1,27 +1,8 @@
-CREATE DATABASE butterlab;
 USE butterlab;
-CREATE TABLE contacts (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(150) NOT NULL,
-  subject VARCHAR(200),
-  message TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-SELECT * FROM contacts;
 
-USE butterlab;
-CREATE TABLE IF NOT EXISTS products (
-  id VARCHAR(60) PRIMARY KEY,
-  name VARCHAR(150) NOT NULL,
-  flavor VARCHAR(200),
-  description TEXT,
-  price INT NOT NULL,
-  weight INT,
-  image VARCHAR(255),
-  alt VARCHAR(255),
-  popularity INT DEFAULT 0
-);
+-- Optional: clear products before seeding (so it won't duplicate)
+DELETE FROM products;
+
 INSERT INTO products
 (id, name, flavor, description, price, weight, image, alt, popularity)
 VALUES
