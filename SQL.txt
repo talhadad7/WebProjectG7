@@ -1,0 +1,126 @@
+CREATE DATABASE IF NOT EXISTS butterlab
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+
+USE butterlab;
+
+CREATE TABLE IF NOT EXISTS contacts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  subject VARCHAR(200),
+  message TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS products (
+  id VARCHAR(60) PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  flavor VARCHAR(200),
+  description TEXT,
+  price DECIMAL(10,2) NOT NULL,
+  weight INT,
+  image VARCHAR(255),
+  alt VARCHAR(255),
+  popularity INT DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(150) NOT NULL,
+  phone VARCHAR(30) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  city VARCHAR(100) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  zip VARCHAR(20),
+  notes TEXT,
+  total DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  order_id INT NOT NULL,
+  product_id VARCHAR(60) NOT NULL,
+  quantity INT NOT NULL,
+  unit_price DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (order_id, product_id),
+  FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT
+);
+USE butterlab;
+
+-- Optional: clear products before seeding (so it won't duplicate)
+DELETE FROM products;
+
+INSERT INTO products
+(id, name, flavor, description, price, weight, image, alt, popularity)
+VALUES
+('GarlicHerb',
+ 'Garlic & Herb Butter',
+ 'Fresh garlic, parsley & thyme',
+ 'A classic savory butter, perfect for bread, pasta and roasted veggies.',
+ 29,
+ 150,
+ 'Images/GarlicHerbButter.png',
+ 'Garlic and herb flavored butter',
+ 2),
+
+('HoneySeaSalt',
+ 'Honey & Sea Salt Butter',
+ 'Wild honey & sea salt crystals',
+ 'Soft, sweet and slightly salty - perfect for brunch and desserts.',
+ 32,
+ 150,
+ 'Images/HoneySaltButter.png',
+ 'Honey and sea salt flavored butter',
+ 9),
+
+('SmokedPaprika',
+ 'Smoked Paprika Butter',
+ 'Smoked paprika & roasted garlic',
+ 'Rich and smoky flavor that upgrades any grilled dish or steak.',
+ 31,
+ 150,
+ 'Images/PaprikaButter.png',
+ 'Smoked paprika flavored butter',
+ 3),
+
+('LemonDill',
+ 'Lemon & Dill Butter',
+ 'Lemon zest & fresh dill',
+ 'Bright and fresh, ideal for fish, veggies and light dishes.',
+ 30,
+ 150,
+ 'Images/LemonDillButter.png',
+ 'Lemon and dill flavored butter',
+ 4),
+
+('ChiliAnchovy',
+ 'Chili & Anchovy Butter',
+ 'Chili flakes, anchovy & herbs',
+ 'A bold, umami-packed butter with a spicy kick - amazing on pasta, toast and grilled fish.',
+ 34,
+ 150,
+ 'Images/ChiliAnchovyButter.png',
+ 'Chili and anchovy flavored butter slices on a wooden board',
+ 5),
+
+('CaramelizedOnion',
+ 'Caramelized Onion Butter',
+ 'Slow-cooked caramelized onions',
+ 'Sweet and savory butter with rich onion depth - perfect for steaks, burgers, mashed potatoes and toast.',
+ 33,
+ 150,
+ 'Images/CaramelizedOnionButter.png',
+ 'Caramelized onion flavored butter slices on a wooden board',
+ 6),
+
+('BrownButterCinnamonVanilla',
+ 'Brown Butter with Cinnamon, Vanilla & Brown Sugar',
+ 'Brown butter, cinnamon, vanilla & brown sugar',
+ 'Warm, nutty and dessert-ready - spread on pancakes, waffles, banana bread or warm brioche.',
+ 35,
+ 150,
+ 'Images/BrownButterCinnamonVanilla.png',
+ 'Brown butter with cinnamon and vanilla slices on a wooden board',
+ 7);
