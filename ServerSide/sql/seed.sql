@@ -1,11 +1,13 @@
 USE butterlab;
 
--- Optional: clear products before seeding (so it won't duplicate)
+-- Remove existing products so the insert below won't duplicate
 DELETE FROM products;
 
+-- Insert product items into the products table
 INSERT INTO products
 (id, name, flavor, description, price, weight, image, alt, popularity)
 VALUES
+-- Garlic & Herb product
 ('GarlicHerb',
  'Garlic & Herb Butter',
  'Fresh garlic, parsley & thyme',
@@ -16,6 +18,7 @@ VALUES
  'Garlic and herb flavored butter',
  2),
 
+-- Honey & Sea Salt
 ('HoneySeaSalt',
  'Honey & Sea Salt Butter',
  'Wild honey & sea salt crystals',
@@ -26,6 +29,7 @@ VALUES
  'Honey and sea salt flavored butter',
  9),
 
+-- Smoked Paprika
 ('SmokedPaprika',
  'Smoked Paprika Butter',
  'Smoked paprika & roasted garlic',
@@ -36,6 +40,7 @@ VALUES
  'Smoked paprika flavored butter',
  3),
 
+-- Lemon & Dill
 ('LemonDill',
  'Lemon & Dill Butter',
  'Lemon zest & fresh dill',
@@ -46,6 +51,7 @@ VALUES
  'Lemon and dill flavored butter',
  4),
 
+-- Chili & Anchovy
 ('ChiliAnchovy',
  'Chili & Anchovy Butter',
  'Chili flakes, anchovy & herbs',
@@ -56,6 +62,7 @@ VALUES
  'Chili and anchovy flavored butter slices on a wooden board',
  5),
 
+-- Caramelized Onion
 ('CaramelizedOnion',
  'Caramelized Onion Butter',
  'Slow-cooked caramelized onions',
@@ -66,6 +73,7 @@ VALUES
  'Caramelized onion flavored butter slices on a wooden board',
  6),
 
+-- Brown Butter with Cinnamon, Vanilla & Sugar
 ('BrownButterCinnamonVanilla',
  'Brown Butter with Cinnamon, Vanilla & Brown Sugar',
  'Brown butter, cinnamon, vanilla & brown sugar',
