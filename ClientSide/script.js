@@ -517,9 +517,6 @@ function setupContactForm() {
         clearFormDraft("contact-form");
         form.reset();
 
-        // Optional: clear message after 5 seconds:
-        // setTimeout(() => { status.textContent = ""; status.className = "small-note"; }, 5000);
-
       } else {
         status.textContent = "❌ Something went wrong. Please try again.";
         status.className = "small-note error";
@@ -539,10 +536,10 @@ function setupCheckoutForm() {
   const form = document.getElementById("checkout-form");
   const messageEl = document.getElementById("order-message");
 
-  // If either doesn't exist – exit
+  // Exit if elements do not exist
   if (!form || !messageEl) return;
 
-  // Restore form draft (if the user started filling it earlier)
+  // Restore form draft if available
   restoreFormDraft(form);
 
   // Save draft on every input change
@@ -550,22 +547,21 @@ function setupCheckoutForm() {
 
   // Handle form submission
   form.addEventListener("submit", async (e) => {
-    // Prevent default form behavior (page refresh)
+    // Prevent default page refresh
     e.preventDefault();
 
-    // Reset previous messages and set default error color
+    // Reset messages and set error color
     messageEl.textContent = "";
     messageEl.style.color = "#d22";
 
-    // 1️⃣ Check if the cart is empty
-    // getCart() returns an object from localStorage
+    // Check if the cart is empty
     const cart = getCart();
     if (Object.keys(cart).length === 0) {
       messageEl.textContent = "Your cart is empty.";
       return;
     }
 
-    // 2️⃣ Read form fields and trim whitespace
+    // Read form fields and trim whitespace
     const fullName = document.getElementById("full-name").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -574,15 +570,13 @@ function setupCheckoutForm() {
     const cardLast4 = document.getElementById("card-last4").value.trim();
     const termsChecked = document.getElementById("terms").checked;
 
-    // 3️⃣ Basic client-side validations
-
-    // Check that all required fields are filled
+    // Basic client-side validations
     if (!fullName || !phone || !email || !city || !address) {
       messageEl.textContent = "Please fill in all required fields (*).";
       return;
     }
 
-    // Check that a full name was entered (at least two words)
+    // Check for full name (at least two words)
     if (fullName.split(" ").length < 2) {
       messageEl.textContent = "Please enter full name (first and last).";
       return;
@@ -600,41 +594,31 @@ function setupCheckoutForm() {
       return;
     }
 
-    // Card last 4 digits check (if entered)
+    // Card last 4 digits check
     if (cardLast4 && !/^\d{4}$/.test(cardLast4)) {
       messageEl.textContent = "Card last 4 digits must be exactly 4 numbers.";
       return;
     }
 
-    // Check that user accepted the terms
+    // Terms acceptance check
     if (!termsChecked) {
       messageEl.textContent = "You must accept the terms to place an order.";
       return;
     }
 
-    // 4️⃣ Build the list of ordered products from the cart
-    // Object.entries iterates over each item in the cart
+    // Build the list of ordered products from the cart
     const items = Object.entries(cart).map(([id, item]) => ({
-      // Product ID
       productId: id,
-
-      // Product Name
       name: item.name,
-
-      // Price per unit
       price: item.price,
-
-      // Selected quantity
       quantity: item.quantity,
-
-      // Line total (price * quantity)
       lineTotal: item.price * item.quantity,
     }));
 
     // Calculate total order amount
     const total = items.reduce((sum, it) => sum + it.lineTotal, 0);
 
-    // 5️⃣ Build the order payload object to send to the server
+    // Build the order payload object
     const orderPayload = {
       customer: {
         full_name: fullName,
@@ -645,36 +629,28 @@ function setupCheckoutForm() {
         zip: document.getElementById("zip")?.value.trim() || "",
         notes: document.getElementById("notes")?.value.trim() || "",
       },
-      // Array of items in the order
       items,
-
-      // Total amount
       total,
-
-      // Order creation timestamp
       createdAt: new Date().toISOString(),
     };
 
-    // 6️⃣ Send order to the server
+    // Send order to the server
     try {
-      // Update UI – loading state
+      // Update UI to loading state
       messageEl.style.color = "#333";
       messageEl.textContent = "Placing order...";
 
-      // Send POST request to the server using fetch
       const resp = await fetch("/order", {
         method: "POST",
         headers: {
-          // Indicates data is sent as JSON
           "Content-Type": "application/json",
         },
         body: JSON.stringify(orderPayload),
       });
 
-      // Parse server response
       const data = await resp.json();
 
-      // Check if server returned an error
+      // Check for server errors
       if (!resp.ok || !data.success) {
         messageEl.style.color = "#d22";
         messageEl.textContent =
@@ -682,19 +658,19 @@ function setupCheckoutForm() {
         return;
       }
 
-      // 7️⃣ Success – server confirmed the order
+      // Success – order confirmed
       messageEl.style.color = "green";
       messageEl.textContent = `Thank you! Order #${data.orderId} has been placed.`;
 
       // Clear application state
-      localStorage.removeItem("cart");      // Clear cart
-      clearFormDraft("checkout-form");      // Clear form draft
-      updateCartCount();                    // Update cart counter
-      renderCheckout();                     // Re-render checkout
-      form.reset();                         // Reset form
+      localStorage.removeItem("cart");      
+      clearFormDraft("checkout-form");      
+      updateCartCount();                    
+      renderCheckout();                     
+      form.reset();                         
 
     } catch (err) {
-      // 8️⃣ Network error / server unreachable handling
+      // Network error handling
       messageEl.style.color = "#d22";
       messageEl.textContent =
         "Cannot reach server. Is it running on localhost:3000?";
@@ -743,10 +719,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     PRODUCTS = await loadProductsFromServer();
   } catch (err) {
     console.error("Failed to load products from server:", err);
-    PRODUCTS = {}; // No fallback – just no products
+    PRODUCTS = {}; 
   }
 
-  // Now that PRODUCTS is loaded, rendering is allowed:
+  // Render components after products are loaded
   renderCatalog();
   renderCheckout();
   setupCheckoutForm();
