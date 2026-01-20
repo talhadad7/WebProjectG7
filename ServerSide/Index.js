@@ -1,31 +1,28 @@
-// Import required modules
 const express = require("express");
 const app = express();
 const path = require("path");
 
-// Middleware to parse incoming request bodies
-app.use(express.urlencoded({ extended: true })); // For standard form data (application/x-www-form-urlencoded)
-app.use(express.json()); // For JSON data payloads
+// Body parsing middleware
+app.use(express.urlencoded({ extended: true })); 
+app.use(express.json()); 
 
-// Enable Cross-Origin Resource Sharing (CORS)
+// Enable CORS
 const cors = require("cors");
 app.use(cors());
 
-// Serve static files from the 'ClientSide' directory
+// Serve static files from the client side folder
 app.use(express.static(path.join(__dirname, "..", "ClientSide")));
 
-// Root route to serve the main HTML file
+// Home route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "ClientSide", "index.html"));
 });
 
-// Route to handle contact form submissions via POST
+// Contact form endpoint
 app.post("/contact", (req, res) => {
   const { name, email, subject, message } = req.body;
-
   console.log("New contact:", req.body);
 
-  // Send an HTML response back to the client displaying the submitted data
   res.send(`
     <h1>Contact received</h1>
     <p><b>Name:</b> ${name}</p>
@@ -36,11 +33,11 @@ app.post("/contact", (req, res) => {
   `);
 });
 
-// Route to handle order submissions via POST
+// Order placement endpoint
 app.post("/order", (req, res) => {
   const { customer, items, total } = req.body;
 
-  // Basic validation: ensure customer data exists and items array is not empty
+  // Basic validation
   if (!customer || !Array.isArray(items) || items.length === 0) {
     return res.status(400).json({
       success: false,
@@ -48,12 +45,10 @@ app.post("/order", (req, res) => {
     });
   }
 
-  // Generate a dummy random 6-digit order ID
+  // Generate mock order ID
   const orderId = Math.floor(100000 + Math.random() * 900000);
-
   console.log("New order received:", { orderId, customer, items, total });
 
-  // Return a success JSON response
   return res.status(201).json({
     success: true,
     orderId,
@@ -61,16 +56,16 @@ app.post("/order", (req, res) => {
   });
 });
 
-// Set server port and start listening for requests
+// Server configuration
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });
 
-// Import the database connection module
+// Database connection
 var sql = require("./db.js");
 
-// Route to retrieve all records from the 'products' table
+// Fetch products data
 app.get("/customers", function (req, res) {
  sql.query("SELECT * FROM products", (err, mysqlres) => 
  {
@@ -81,7 +76,6 @@ app.get("/customers", function (req, res) {
     }
 
     console.log("got all customers...");
-    // Send the database results back to the client
     res.send(mysqlres);
     return;
   });
