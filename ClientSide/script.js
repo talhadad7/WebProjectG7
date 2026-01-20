@@ -517,7 +517,7 @@ function setupContactForm() {
         clearFormDraft("contact-form");
         form.reset();
 
-        // If you want it to disappear after 5 seconds:
+        // Optional: clear message after 5 seconds:
         // setTimeout(() => { status.textContent = ""; status.className = "small-note"; }, 5000);
 
       } else {
@@ -535,29 +535,29 @@ function setupContactForm() {
  * Sets up validation and submission handling for the checkout form.
  */
 function setupCheckoutForm() {
-  // Get the checkout form and the message element from the DOM
+  // Retrieve the checkout form and message element from the DOM
   const form = document.getElementById("checkout-form");
   const messageEl = document.getElementById("order-message");
 
-  // If either one doesn't exist, there's nothing to set up
+  // If either doesn't exist – exit
   if (!form || !messageEl) return;
 
-  // Restore a saved form draft (if the user started filling it earlier)
+  // Restore form draft (if the user started filling it earlier)
   restoreFormDraft(form);
 
-  // Save a draft on every input change
+  // Save draft on every input change
   form.addEventListener("input", () => saveFormDraft(form));
 
   // Handle form submission
   form.addEventListener("submit", async (e) => {
-    // Prevent the default form behavior (page refresh)
+    // Prevent default form behavior (page refresh)
     e.preventDefault();
 
-    // Reset any previous message and default to "error" color
+    // Reset previous messages and set default error color
     messageEl.textContent = "";
     messageEl.style.color = "#d22";
 
-    // 1️⃣ Make sure the cart is not empty
+    // 1️⃣ Check if the cart is empty
     // getCart() returns an object from localStorage
     const cart = getCart();
     if (Object.keys(cart).length === 0) {
@@ -576,52 +576,52 @@ function setupCheckoutForm() {
 
     // 3️⃣ Basic client-side validations
 
-    // Check all required fields are filled
+    // Check that all required fields are filled
     if (!fullName || !phone || !email || !city || !address) {
       messageEl.textContent = "Please fill in all required fields (*).";
       return;
     }
 
-    // Ensure a "full name" was entered (at least two words)
+    // Check that a full name was entered (at least two words)
     if (fullName.split(" ").length < 2) {
       messageEl.textContent = "Please enter full name (first and last).";
       return;
     }
 
-    // Validate phone format
+    // Phone format check
     if (!/^\+?\d{9,12}$/.test(phone)) {
       messageEl.textContent = "Please enter a valid phone number.";
       return;
     }
 
-    // Validate email format
+    // Email format check
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       messageEl.textContent = "Please enter a valid email address.";
       return;
     }
 
-    // Validate last 4 digits of card number (if provided)
+    // Card last 4 digits check (if entered)
     if (cardLast4 && !/^\d{4}$/.test(cardLast4)) {
       messageEl.textContent = "Card last 4 digits must be exactly 4 numbers.";
       return;
     }
 
-    // Ensure the user accepted the terms
+    // Check that user accepted the terms
     if (!termsChecked) {
       messageEl.textContent = "You must accept the terms to place an order.";
       return;
     }
 
-    // 4️⃣ Build the order items list from the cart
-    // Object.entries iterates over all cart items
+    // 4️⃣ Build the list of ordered products from the cart
+    // Object.entries iterates over each item in the cart
     const items = Object.entries(cart).map(([id, item]) => ({
-      // Product identifier
+      // Product ID
       productId: id,
 
-      // Product name
+      // Product Name
       name: item.name,
 
-      // Unit price
+      // Price per unit
       price: item.price,
 
       // Selected quantity
@@ -631,10 +631,10 @@ function setupCheckoutForm() {
       lineTotal: item.price * item.quantity,
     }));
 
-    // Calculate the total order price
+    // Calculate total order amount
     const total = items.reduce((sum, it) => sum + it.lineTotal, 0);
 
-    // 5️⃣ Build the order payload to send to the server
+    // 5️⃣ Build the order payload object to send to the server
     const orderPayload = {
       customer: {
         full_name: fullName,
@@ -645,7 +645,7 @@ function setupCheckoutForm() {
         zip: document.getElementById("zip")?.value.trim() || "",
         notes: document.getElementById("notes")?.value.trim() || "",
       },
-      // Items array in the order
+      // Array of items in the order
       items,
 
       // Total amount
@@ -655,17 +655,17 @@ function setupCheckoutForm() {
       createdAt: new Date().toISOString(),
     };
 
-    // 6️⃣ Send the order to the server
+    // 6️⃣ Send order to the server
     try {
-      // UI update – loading state
+      // Update UI – loading state
       messageEl.style.color = "#333";
       messageEl.textContent = "Placing order...";
 
-      // POST to server with fetch
+      // Send POST request to the server using fetch
       const resp = await fetch("/order", {
         method: "POST",
         headers: {
-          // Indicates JSON payload
+          // Indicates data is sent as JSON
           "Content-Type": "application/json",
         },
         body: JSON.stringify(orderPayload),
@@ -674,7 +674,7 @@ function setupCheckoutForm() {
       // Parse server response
       const data = await resp.json();
 
-      // Check for server error response
+      // Check if server returned an error
       if (!resp.ok || !data.success) {
         messageEl.style.color = "#d22";
         messageEl.textContent =
@@ -686,15 +686,15 @@ function setupCheckoutForm() {
       messageEl.style.color = "green";
       messageEl.textContent = `Thank you! Order #${data.orderId} has been placed.`;
 
-      // Clear app state
+      // Clear application state
       localStorage.removeItem("cart");      // Clear cart
       clearFormDraft("checkout-form");      // Clear form draft
       updateCartCount();                    // Update cart counter
       renderCheckout();                     // Re-render checkout
-      form.reset();                         // Reset the form
+      form.reset();                         // Reset form
 
     } catch (err) {
-      // 8️⃣ Network/server error handling
+      // 8️⃣ Network error / server unreachable handling
       messageEl.style.color = "#d22";
       messageEl.textContent =
         "Cannot reach server. Is it running on localhost:3000?";
@@ -746,7 +746,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     PRODUCTS = {}; // No fallback – just no products
   }
 
-  // Now that PRODUCTS is loaded, we can safely render:
+  // Now that PRODUCTS is loaded, rendering is allowed:
   renderCatalog();
   renderCheckout();
   setupCheckoutForm();
