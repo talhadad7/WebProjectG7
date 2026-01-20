@@ -517,7 +517,7 @@ function setupContactForm() {
         clearFormDraft("contact-form");
         form.reset();
 
-        // אם בא לך שייעלם אחרי 5 שניות:
+        // If you want it to disappear after 5 seconds:
         // setTimeout(() => { status.textContent = ""; status.className = "small-note"; }, 5000);
 
       } else {
@@ -535,37 +535,37 @@ function setupContactForm() {
  * Sets up validation and submission handling for the checkout form.
  */
 function setupCheckoutForm() {
-  // שליפת טופס ההזמנה ואלמנט ההודעות מה-DOM
+  // Get the checkout form and the message element from the DOM
   const form = document.getElementById("checkout-form");
   const messageEl = document.getElementById("order-message");
 
-  // אם אחד מהם לא קיים – אין טעם להמשיך
+  // If either one doesn't exist, there's nothing to set up
   if (!form || !messageEl) return;
 
-  // שחזור טיוטת טופס (אם המשתמש התחיל למלא קודם)
+  // Restore a saved form draft (if the user started filling it earlier)
   restoreFormDraft(form);
 
-  // שמירת טיוטה בכל שינוי בשדות הטופס
+  // Save a draft on every input change
   form.addEventListener("input", () => saveFormDraft(form));
 
-  // טיפול בשליחת הטופס
+  // Handle form submission
   form.addEventListener("submit", async (e) => {
-    // ביטול ההתנהגות הדיפולטיבית של טופס (רענון עמוד)
+    // Prevent the default form behavior (page refresh)
     e.preventDefault();
 
-    // איפוס הודעה קודמת והגדרת צבע שגיאה כברירת מחדל
+    // Reset any previous message and default to "error" color
     messageEl.textContent = "";
     messageEl.style.color = "#d22";
 
-    // 1️⃣ בדיקה שהעגלה לא ריקה
-    // getCart() מחזירה אובייקט מה-localStorage
+    // 1️⃣ Make sure the cart is not empty
+    // getCart() returns an object from localStorage
     const cart = getCart();
     if (Object.keys(cart).length === 0) {
       messageEl.textContent = "Your cart is empty.";
       return;
     }
 
-    // 2️⃣ קריאת שדות הטופס וניקוי רווחים
+    // 2️⃣ Read form fields and trim whitespace
     const fullName = document.getElementById("full-name").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -574,67 +574,67 @@ function setupCheckoutForm() {
     const cardLast4 = document.getElementById("card-last4").value.trim();
     const termsChecked = document.getElementById("terms").checked;
 
-    // 3️⃣ ולידציות בסיסיות בצד לקוח
+    // 3️⃣ Basic client-side validations
 
-    // בדיקה שכל שדות החובה מלאים
+    // Check all required fields are filled
     if (!fullName || !phone || !email || !city || !address) {
       messageEl.textContent = "Please fill in all required fields (*).";
       return;
     }
 
-    // בדיקה שהוזן שם מלא (לפחות שתי מילים)
+    // Ensure a "full name" was entered (at least two words)
     if (fullName.split(" ").length < 2) {
       messageEl.textContent = "Please enter full name (first and last).";
       return;
     }
 
-    // בדיקת פורמט טלפון
+    // Validate phone format
     if (!/^\+?\d{9,12}$/.test(phone)) {
       messageEl.textContent = "Please enter a valid phone number.";
       return;
     }
 
-    // בדיקת פורמט אימייל
+    // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       messageEl.textContent = "Please enter a valid email address.";
       return;
     }
 
-    // בדיקת 4 ספרות אחרונות של כרטיס (אם הוזן)
+    // Validate last 4 digits of card number (if provided)
     if (cardLast4 && !/^\d{4}$/.test(cardLast4)) {
       messageEl.textContent = "Card last 4 digits must be exactly 4 numbers.";
       return;
     }
 
-    // בדיקה שהמשתמש אישר תנאים
+    // Ensure the user accepted the terms
     if (!termsChecked) {
       messageEl.textContent = "You must accept the terms to place an order.";
       return;
     }
 
-    // 4️⃣ בניית רשימת המוצרים להזמנה מתוך העגלה
-    // Object.entries עובר על כל מוצר בעגלה
+    // 4️⃣ Build the order items list from the cart
+    // Object.entries iterates over all cart items
     const items = Object.entries(cart).map(([id, item]) => ({
-      // מזהה המוצר
+      // Product identifier
       productId: id,
 
-      // שם המוצר
+      // Product name
       name: item.name,
 
-      // מחיר ליחידה
+      // Unit price
       price: item.price,
 
-      // כמות שנבחרה
+      // Selected quantity
       quantity: item.quantity,
 
-      // סך הכל לשורה (מחיר * כמות)
+      // Line total (price * quantity)
       lineTotal: item.price * item.quantity,
     }));
 
-    // חישוב הסכום הכולל של ההזמנה
+    // Calculate the total order price
     const total = items.reduce((sum, it) => sum + it.lineTotal, 0);
 
-    // 5️⃣ בניית אובייקט ההזמנה (payload) לשליחה לשרת
+    // 5️⃣ Build the order payload to send to the server
     const orderPayload = {
       customer: {
         full_name: fullName,
@@ -645,36 +645,36 @@ function setupCheckoutForm() {
         zip: document.getElementById("zip")?.value.trim() || "",
         notes: document.getElementById("notes")?.value.trim() || "",
       },
-      // מערך הפריטים בהזמנה
+      // Items array in the order
       items,
 
-      // סכום כולל
+      // Total amount
       total,
 
-      // תאריך ושעת יצירת ההזמנה
+      // Order creation timestamp
       createdAt: new Date().toISOString(),
     };
 
-    // 6️⃣ שליחת ההזמנה לשרת
+    // 6️⃣ Send the order to the server
     try {
-      // עדכון UI – מצב טעינה
+      // UI update – loading state
       messageEl.style.color = "#333";
       messageEl.textContent = "Placing order...";
 
-      // שליחת POST לשרת עם fetch
+      // POST to server with fetch
       const resp = await fetch("/order", {
         method: "POST",
         headers: {
-          // מציין שהנתונים נשלחים כ-JSON
+          // Indicates JSON payload
           "Content-Type": "application/json",
         },
         body: JSON.stringify(orderPayload),
       });
 
-      // קריאת תשובת השרת
+      // Parse server response
       const data = await resp.json();
 
-      // בדיקה אם השרת החזיר שגיאה
+      // Check for server error response
       if (!resp.ok || !data.success) {
         messageEl.style.color = "#d22";
         messageEl.textContent =
@@ -682,19 +682,19 @@ function setupCheckoutForm() {
         return;
       }
 
-      // 7️⃣ הצלחה – השרת אישר את ההזמנה
+      // 7️⃣ Success – server confirmed the order
       messageEl.style.color = "green";
       messageEl.textContent = `Thank you! Order #${data.orderId} has been placed.`;
 
-      // ניקוי מצב האפליקציה
-      localStorage.removeItem("cart");      // מחיקת העגלה
-      clearFormDraft("checkout-form");      // מחיקת טיוטת טופס
-      updateCartCount();                    // עדכון מונה עגלה
-      renderCheckout();                     // רינדור מחדש של Checkout
-      form.reset();                         // איפוס הטופס
+      // Clear app state
+      localStorage.removeItem("cart");      // Clear cart
+      clearFormDraft("checkout-form");      // Clear form draft
+      updateCartCount();                    // Update cart counter
+      renderCheckout();                     // Re-render checkout
+      form.reset();                         // Reset the form
 
     } catch (err) {
-      // 8️⃣ טיפול בשגיאת רשת / שרת לא זמין
+      // 8️⃣ Network/server error handling
       messageEl.style.color = "#d22";
       messageEl.textContent =
         "Cannot reach server. Is it running on localhost:3000?";
@@ -743,10 +743,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     PRODUCTS = await loadProductsFromServer();
   } catch (err) {
     console.error("Failed to load products from server:", err);
-    PRODUCTS = {}; // אין fallback – פשוט אין מוצרים
+    PRODUCTS = {}; // No fallback – just no products
   }
 
-  // עכשיו שה-PRODUCTS נטען, מותר לרנדר:
+  // Now that PRODUCTS is loaded, we can safely render:
   renderCatalog();
   renderCheckout();
   setupCheckoutForm();
