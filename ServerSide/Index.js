@@ -5,8 +5,8 @@ const db = require("./db");
 const bodyParser = require("body-parser");
 
 // Middleware to read form data (urlencoded) and JSON
-app.use(express.urlencoded({ extended: true })); // handles classic HTML forms
-app.use(express.json()); // handles JSON requests
+app.use(express.urlencoded({ extended: true })); 
+app.use(express.json()); 
 
 const cors = require("cors");
 app.use(cors());
