@@ -1,83 +1,62 @@
-const express = require("express")   ;
+const express = require("express");
 const app = express();
 const path = require("path");
-const db = require("./db");
+const db = require("./db"); // DB connection
 const bodyParser = require("body-parser");
 
-app.use(express.urlencoded({ extended: true })); // בשביל form רגיל (application/x-www-form-urlencoded)
-app.use(express.json()); // בשביל JSON
+// Parse form & JSON requests
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+
 const cors = require("cors");
 app.use(cors());
+
 app.use(express.static(path.join(__dirname, "..", "ClientSide")));
 
+// Home page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "ClientSide", "index.html"));
 });
 
+// Contact form endpoint
 app.post("/contact", (req, res) => {
   const { name, email, subject, message } = req.body;
 
-  console.log("New contact:", req.body);
-  const sql = "INSERT INTO contacts (name, email, subject, message) VALUES (?, ?, ?, ?)";
+  const sql =
+    "INSERT INTO contacts (name, email, subject, message) VALUES (?, ?, ?, ?)";
+
   db.query(sql, [name, email, subject, message], (err, result) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("DB error");
-    }
+    if (err) return res.status(500).send("DB error");
 
     res.json({
       success: true,
-      ticketId: result.insertId
+      ticketId: result.insertId,
     });
   });
-
 });
+
+// Create new order
 app.post("/order", (req, res) => {
   const { customer, items, total } = req.body;
 
-  // 1) ולידציה בסיסית (שומרים כרגע רק orders, אבל בודקים שיש עגלה)
+  // Basic payload validation
   if (!customer || !Array.isArray(items) || items.length === 0) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid order payload",
-    });
+    return res.status(400).json({ success: false });
   }
 
-  const {
-    full_name,
-    phone,
-    email,
-    city,
-    address,
-    zip,
-    notes,
-  } = customer;
+  const { full_name, phone, email, city, address, zip, notes } = customer;
 
-  // 2) בדיקת שדות חובה מהטופס
+  // Required customer fields
   if (!full_name || !phone || !email || !city || !address) {
-    return res.status(400).json({
-      success: false,
-      message: "Missing required customer fields",
-    });
+    return res.status(400).json({ success: false });
   }
 
-  // 3) לוודא ש-total מספר תקין
+  // Calculate total on server
   const computedTotal = items.reduce((sum, item) => {
-    const price = Number(item.price);
-    const qty = Number(item.quantity);
-
-    if (!Number.isFinite(price) || !Number.isFinite(qty) || qty <= 0) return sum;
-    return sum + price * qty;
+    return sum + Number(item.price) * Number(item.quantity);
   }, 0);
 
-  if (!Number.isFinite(computedTotal) || computedTotal <= 0) {
-    return res.status(400).json({
-      success: false,
-      message: "Invalid computed total",
-    });
-  }
-
-  // 4) INSERT ל-DB לטבלת orders
   const sql = `
     INSERT INTO orders
       (full_name, phone, email, city, address, zip, notes, total)
@@ -96,57 +75,44 @@ app.post("/order", (req, res) => {
     computedTotal,
   ];
 
-  // חשוב: db צריך להיות ה-connection/pool שלך מ-db.js
   db.query(sql, values, (err, result) => {
-    if (err) {
-      console.error("DB error creating order:", err);
-      return res.status(500).json({
-        success: false,
-        message: "DB error",
-      });
-    }
+    if (err) return res.status(500).json({ success: false });
 
-    // ID של ההזמנה שנוצרה
     const orderId = result.insertId;
 
-    // בניית ערכים ל-order_items
     const itemsValues = items.map((item) => [
       orderId,
-      item.productId,          // מגיע מה-frontend
+      item.productId,
       item.quantity,
-      item.price,              // מחיר ליחידה
+      item.price,
     ]);
 
     const itemsSql = `
-    INSERT INTO order_items
-      (order_id, product_id, quantity, unit_price)
-    VALUES ?
-  `;
+      INSERT INTO order_items
+        (order_id, product_id, quantity, unit_price)
+      VALUES ?
+    `;
 
     db.query(itemsSql, [itemsValues], (err2) => {
-      if (err2) {
-        console.error("DB error creating order_items:", err2);
-        return res.status(500).json({
-          success: false,
-          message: "DB error (order items)",
-        });
-      }
+      if (err2) return res.status(500).json({ success: false });
 
-      return res.status(201).json({
+      res.status(201).json({
         success: true,
         orderId,
-        message: "Order saved",
       });
     });
   });
 });
+
+// Simple DB connection test
 app.get("/db-test", (req, res) => {
-  db.query("SELECT DATABASE() AS db, 1 AS ok", (err, results) => {
+  db.query("SELECT DATABASE() AS db", (err, results) => {
     if (err) return res.status(500).send(err.message);
     res.json(results);
   });
 });
 
+// Get all products
 app.get("/products", (req, res) => {
   const sql = `
     SELECT id, name, flavor, description, price, weight, image, alt, popularity
@@ -155,14 +121,13 @@ app.get("/products", (req, res) => {
   `;
 
   db.query(sql, (err, results) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("DB error");
-    }
+    if (err) return res.status(500).send("DB error");
     res.json(results);
   });
 });
+
+// Start server
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
